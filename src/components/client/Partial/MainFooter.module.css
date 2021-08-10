@@ -1,0 +1,48 @@
+.footer {
+  background-color: var(--blue-main);
+}
+
+.ant-divider {
+  background-color: white;
+}
+
+.footer a {
+  display: block;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.footer a:hover,
+.footer a:focus {
+  color: rgb(219, 219, 219);
+}
+
+.footer h3,
+.footer p {
+  color: white;
+}
+
+.center {
+  text-align: center;
+}
+
+.yeah {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer a.instagram {
+  width: 50px;
+  height: 50px;
+  background: url(../../../asset/ic_instagram.png);
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+  border-radius: 50%;
+  background-position: center;
+  background-color: white;
+  margin: 1rem 0;
+}

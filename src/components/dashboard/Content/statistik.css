@@ -1,0 +1,51 @@
+.card-center {
+  display: flex;
+  justify-content: center;
+}
+
+.card-center img {
+  width: 60px;
+}
+
+.patient-stat {
+  margin-top: 100px;
+  position: relative;
+  padding-left: 200px;
+}
+
+.card-stat {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-card-body {
+  width: 100%;
+  display: flex;
+}
+
+.list-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.pie-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.first-row-desc {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.first-row-desc p {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}

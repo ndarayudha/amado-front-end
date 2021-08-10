@@ -1,0 +1,24 @@
+.card {
+  padding: 40px;
+  background: #fff;
+  max-width: 360px;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+.shadow1 {
+  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2);
+}
+
+.shadow2 {
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+}
+
+.shadow3 {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.shadow4 {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}

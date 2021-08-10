@@ -1,0 +1,144 @@
+article {
+  background-color: var(--white-main);
+}
+
+.home {
+  margin-top: 50px;
+}
+
+.home aside,
+.about aside {
+  height: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.img-container {
+  text-align: center;
+}
+
+.img-container img {
+  width: 25rem;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.description h1 {
+  text-align: start;
+  font-size: 3rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+.description h1 span {
+  color: var(--blue-light);
+}
+.description h4 {
+  font-size: 1.5rem;
+  font-weight: lighter;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+}
+.description p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.5;
+  letter-spacing: 0.5px;
+}
+.description h2 {
+  font-size: 1.5rem;
+}
+.work-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.work-description div {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--blue-main);
+  border-radius: 50%;
+  color: var(--white-main);
+  height: 50px;
+  width: 50px;
+}
+
+.work-description h6 {
+  font-size: 1.2rem;
+  margin: 1rem;
+  letter-spacing: 1px;
+}
+
+.work-description p {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 992px) {
+  .description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .description h1 {
+    font-size: 2rem;
+  }
+
+  .home aside,
+  .about aside,
+  .work aside,
+  .app aside {
+    display: block;
+    width: 80vw;
+  }
+
+  .img-container img {
+    margin-top: 40px;
+    width: 17rem;
+  }
+
+  .about .description {
+    margin: 30px 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home article {
+    padding: 80px 80px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .home article {
+    padding: 80px 40px;
+  }
+  .home .description h1 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+  .home .description h4 {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,18 @@
+.button {
+  display: block;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+  color: var(--white-main);
+  background-color: var(--blue-main);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  animation: pulse_01 300ms infinite;
+}
+
+.second {
+  background-color: var(--blue-light);
+  color: var(--white-main);
+}

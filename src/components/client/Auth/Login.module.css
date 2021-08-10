@@ -1,0 +1,37 @@
+.login {
+  background-color: var(--white-main);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.row-full {
+  height: 100%;
+}
+
+.login-card {
+  min-width: 450px;
+}
+.ic-amado {
+  width: 3rem;
+}
+.login h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  opacity: 0.9;
+  margin: 25px 0;
+}
+.ant-input-affix-wrapper::before {
+  border-radius: 20px;
+}
+
+.form-border {
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 576px) {
+  .login-card {
+    min-width: 200px;
+  }
+}
