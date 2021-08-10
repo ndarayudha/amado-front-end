@@ -1,0 +1,13 @@
+.contact-map-stat {
+  margin-top: 100px;
+  position: relative;
+  padding-left: 200px;
+  margin-bottom: 100px;
+}
+
+.contact-all-map {
+  display: block;
+  width: 100%;
+  height: 800px;
+  background-color: var(--font-black-main);
+}

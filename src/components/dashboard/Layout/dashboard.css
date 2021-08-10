@@ -62,7 +62,11 @@
   background-color: var(--blue-main);
 }
 
-.footer {
+.footer-dashboard {
   background-color: var(--white-main);
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
 }

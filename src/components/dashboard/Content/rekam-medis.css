@@ -1,0 +1,10 @@
+.record-stat {
+  margin-top: 100px;
+  position: relative;
+  padding-left: 200px;
+  margin-bottom: 100px;
+}
+.record-input {
+  border-radius: 10px;
+  border: 0;
+}

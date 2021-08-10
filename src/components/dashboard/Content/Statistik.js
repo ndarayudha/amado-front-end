@@ -14,16 +14,21 @@ import { CurrentStatus } from "../Table/CurrentStatus";
 export const Statistik = () => {
   useEffect(() => {
     AOS.init({
-      duration: 1500,
+      duration: 300,
     });
     AOS.refresh();
   }, []);
 
   return (
     <Layout>
-      <Row justify="center" className="patient-stat" style={{ height: "100%" }}>
-        <Col span={8} className="card-center" data-aos="fade-up">
-          <div className="site-card-border-less-wrapper" data-aos="fade-up">
+      <Row
+        justify="center"
+        className="patient-stat"
+        style={{ height: "100%" }}
+        data-aos="fade-up"
+      >
+        <Col span={8} className="card-center">
+          <div className="site-card-border-less-wrapper">
             <Card className="card-stat" bordered={true} style={{ width: 300 }}>
               <img src={icBed} alt="" />
               <div className="first-row-desc">
@@ -59,7 +64,21 @@ export const Statistik = () => {
       <Row
         justify="start"
         className="patient-stat"
+        style={{ height: "100%", marginTop: "30px" }}
+        data-aos="fade-up"
+      >
+        <Col span={12} className="card-center">
+          <CurrentMonitoringList />
+        </Col>
+        <Col span={12} className="card-center">
+          <CurrentStatus />
+        </Col>
+      </Row>
+      <Row
+        justify="start"
+        className="patient-stat"
         style={{ height: "100%", marginTop: "10px" }}
+        data-aos="fade-up"
       >
         <Col span={24} className="card-center">
           <div className="site-card-border-less-wrapper">
@@ -82,18 +101,7 @@ export const Statistik = () => {
           </div>
         </Col>
       </Row>
-      <Row
-        justify="start"
-        className="patient-stat"
-        style={{ height: "100%", marginTop: "30px" }}
-      >
-        <Col span={12} className="card-center">
-          <CurrentMonitoringList />
-        </Col>
-        <Col span={12} className="card-center">
-          <CurrentStatus />
-        </Col>
-      </Row>
+      <br />
     </Layout>
   );
 };

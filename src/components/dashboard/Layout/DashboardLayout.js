@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import "./dashboard.css";
 import { Layout, Menu, Input, Badge, Avatar, Dropdown, message } from "antd";
-import { Statistik } from "./Content/Statistik";
-import IcAmado from "../../asset/ic_amado.png";
+import IcAmado from "../../../asset/ic_amado.png";
 
 import {
   PieChartOutlined,
@@ -17,7 +16,7 @@ import {
 
 const { Header, Footer, Sider, Content } = Layout;
 
-export const Dashboard = () => {
+export const DashboardLayout = (props) => {
   const onClick = ({ key }) => {
     message.info(`Click on item ${key}`);
   };
@@ -41,19 +40,19 @@ export const Dashboard = () => {
         </div>
         <Menu theme="light" mode="inline" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <Link to="/dashboard">Statistik</Link>
+            <Link to="/statistik">Statistik</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<TeamOutlined />}>
-            Daftar Pasien
+            <Link to="/patients">Daftar Pasien</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<PushpinOutlined />}>
-            Lokasi Pasien
+            <Link to="/lokasi-pasien">Lokasi Pasien</Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<PushpinOutlined />}>
-            Lokasi Kontak Erat
+            <Link to="/kontak-erat">Lokasi Kontak Erat</Link>
           </Menu.Item>
           <Menu.Item key="5" icon={<FileTextOutlined />}>
-            Rekam Medis
+            <Link to="/rekam-medis">Rekam Medis</Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -78,21 +77,10 @@ export const Dashboard = () => {
               Profile <DownOutlined />
             </a>
           </Dropdown>
-          ,
         </Header>
-        <Content style={{ height: "100%" }}>
-          <Statistik />
-          <Switch>
-            <Route path="/daftar-pasien"></Route>
-            <Route path="/lokasi-pasien"></Route>
-            <Route path="/kontak-erat"></Route>
-            <Route path="/rekam-medis"></Route>
-          </Switch>
-        </Content>
-        <Footer className="footer">Amado Dashboard</Footer>
+        <Content style={{ height: "100%" }}>{props.children}</Content>
+        <Footer className="footer-dashboard">Amado Dashboard</Footer>
       </Layout>
     </Layout>
   );
 };
-
-export default Dashboard;

@@ -3,7 +3,12 @@ import { Spin } from "antd";
 import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import "./util/global.css";
-import { Dashboard } from "./components/dashboard/Dashboard";
+import { DashboardLayout } from "./components/dashboard/Layout/DashboardLayout";
+import { Statistik } from "./components/dashboard/Content/Statistik";
+import { DaftarPasien } from "./components/dashboard/Content/DaftarPasien";
+import { KontakErat } from "./components/dashboard/Content/KontakErat";
+import { RekamMedis } from "./components/dashboard/Content/RekamMedis";
+import { LokasiPasien } from "./components/dashboard/Content/LokasiPasien";
 
 const HomeContent = React.lazy(() =>
   import("./components/client/Home/HomeContent")
@@ -45,9 +50,25 @@ const App = () => {
           </Route>
         </Switch>
       </MainLayout>
-      <Route path="/dashboard">
-        <Dashboard />
-      </Route>
+      <DashboardLayout>
+        <Switch>
+          <Route path="/statistik" exact>
+            <Statistik />
+          </Route>
+          <Route path="/patients" exact>
+            <DaftarPasien />
+          </Route>
+          <Route path="/lokasi-pasien" exact>
+            <LokasiPasien />
+          </Route>
+          <Route path="/kontak-erat" exact>
+            <KontakErat />
+          </Route>
+          <Route path="/rekam-medis" exact>
+            <RekamMedis />
+          </Route>
+        </Switch>
+      </DashboardLayout>
     </Suspense>
   );
 };
