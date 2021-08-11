@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import H from "@here/maps-api-for-javascript";
-import "./kontak-erat.css";
-import { Row, Col, Layout, Card } from "antd";
+import "./kontakPasien.css";
 
-export const KontakErat = (props) => {
+export const KontakPasienMap = () => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState({ maps: null });
 
@@ -57,38 +56,10 @@ export const KontakErat = (props) => {
 
     const ui = H.ui.UI.createDefault(contacttMap, defaultLayers);
 
-    let mapSettings = ui.getControl("mapsettings");
-    let zoom = ui.getControl("zoom");
-    let scalebar = ui.getControl("scalebar");
-
-    mapSettings.setAlignment("top-left");
-    zoom.setAlignment("top-left");
-    scalebar.setAlignment("top-left");
-
     setMapInstance({ maps: contacttMap });
 
     return setMapInstance({ maps: null });
   }, [mapRef]);
 
-  return (
-    <Layout>
-      <Row
-        gutter={16}
-        justify="center"
-        className="contact-map-stat"
-        style={{ height: "100%" }}
-        data-aos="fade-up"
-      >
-        <Col span={22}>
-          <Card style={{ width: "100%" }}>
-            <div
-              ref={mapRef}
-              className="contact-all-map"
-              id="contact-map-container"
-            ></div>
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
-  );
+  return <div ref={mapRef} className="contact-detail-patient"></div>;
 };

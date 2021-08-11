@@ -1,7 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./dashboard.css";
-import { Layout, Menu, Input, Badge, Avatar, Dropdown, message } from "antd";
+import {
+  Layout,
+  Menu,
+  Input,
+  Badge,
+  Avatar,
+  Dropdown,
+  message,
+  Divider,
+} from "antd";
 import IcAmado from "../../../asset/ic_amado.png";
 
 import {
@@ -21,6 +30,7 @@ export const DashboardLayout = (props) => {
     message.info(`Click on item ${key}`);
   };
 
+  // Drop Down menu
   const menu = (
     <Menu onClick={onClick}>
       <Menu.Item key="1">1st menu item</Menu.Item>
@@ -33,12 +43,14 @@ export const DashboardLayout = (props) => {
 
   return (
     <Layout className="full">
-      <Sider className="sidebar">
+      <Sider className="sidebar" style={{ overflow: "scroll" }}>
         <div className="logo">
           <h1>Amado</h1>
           <img src={IcAmado} alt="" />
         </div>
         <Menu theme="light" mode="inline" defaultSelectedKeys={["1"]}>
+          <p className="item-divider">Pasien</p>
+          <Divider className="menu-divider" />
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <Link to="/statistik">Statistik</Link>
           </Menu.Item>
@@ -53,6 +65,21 @@ export const DashboardLayout = (props) => {
           </Menu.Item>
           <Menu.Item key="5" icon={<FileTextOutlined />}>
             <Link to="/rekam-medis">Rekam Medis</Link>
+          </Menu.Item>
+
+          <p className="item-divider">Rumah Sakit</p>
+          <Divider className="menu-divider" />
+          <Menu.Item key="6" icon={<FileTextOutlined />}>
+            <Link to="/oksigen">Stok Oksigen</Link>
+          </Menu.Item>
+          <Menu.Item key="7" icon={<FileTextOutlined />}>
+            <Link to="/ruangan">Ruangan</Link>
+          </Menu.Item>
+
+          <p className="item-divider">Lainnya</p>
+          <Divider className="menu-divider" />
+          <Menu.Item key="8" icon={<FileTextOutlined />}>
+            <Link to="/profil">Profil</Link>
           </Menu.Item>
         </Menu>
       </Sider>

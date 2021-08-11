@@ -70,3 +70,31 @@
   width: 100%;
   z-index: 10;
 }
+.item-divider {
+  font-weight: light;
+  font-size: 0.8rem;
+  margin-top: 35px;
+  margin-left: 20px;
+}
+.menu-divider {
+  margin-bottom: 10px;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

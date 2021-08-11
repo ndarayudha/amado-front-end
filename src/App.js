@@ -9,6 +9,7 @@ import { DaftarPasien } from "./components/dashboard/Content/DaftarPasien";
 import { KontakErat } from "./components/dashboard/Content/KontakErat";
 import { RekamMedis } from "./components/dashboard/Content/RekamMedis";
 import { LokasiPasien } from "./components/dashboard/Content/LokasiPasien";
+import { RekamMedisDetail } from "./components/dashboard/Table/RekamMedisDetail";
 
 const HomeContent = React.lazy(() =>
   import("./components/client/Home/HomeContent")
@@ -66,6 +67,9 @@ const App = () => {
           </Route>
           <Route path="/rekam-medis" exact>
             <RekamMedis />
+          </Route>
+          <Route path="/rekam-medis/:id">
+            <RekamMedisDetail />
           </Route>
         </Switch>
       </DashboardLayout>

@@ -45,14 +45,16 @@ export const CurrentStatus = () => {
     },
   });
   return (
-    <div className="Area">
-      <Chart
-        options={options.chartOptions}
-        series={options.series}
-        type="area"
-        height={300}
-        width={500}
-      />
-    </div>
+    <Card>
+      <div className="Area">
+        <Chart
+          options={options.chartOptions}
+          series={options.series}
+          type="area"
+          height={300}
+          width={500}
+        />
+      </div>
+    </Card>
   );
 };
