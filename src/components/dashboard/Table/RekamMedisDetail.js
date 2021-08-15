@@ -36,27 +36,27 @@ export const RekamMedisDetail = () => {
               <Input
                 style={{ marginBottom: "10px" }}
                 placeholder="Nama"
-                value={""}
+                value={"Niki"}
               />
               <Input
                 style={{ marginBottom: "10px" }}
                 placeholder="Umur"
-                value={""}
+                value={"21"}
               />
               <Input
                 style={{ marginBottom: "10px" }}
                 placeholder="Spo2"
-                value={""}
+                value={"99"}
               />
               <Input
                 style={{ marginBottom: "10px" }}
                 placeholder="Bpm"
-                value={""}
+                value={"66"}
               />
               <TextArea
                 style={{ marginBottom: "10px" }}
                 placeholder="Alamat"
-                value={""}
+                value={"Dusun Plosorejo, Desa Kaliploso, Cluring, 68482"}
               />
             </div>
           </Card>

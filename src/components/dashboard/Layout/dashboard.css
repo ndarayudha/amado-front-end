@@ -65,10 +65,10 @@
 .footer-dashboard {
   background-color: var(--white-main);
   text-align: center;
-  position: fixed;
-  bottom: 0;
+  position: absolute;
+  bottom: 100vh;
   width: 100%;
-  z-index: 10;
+  z-index: 2;
 }
 .item-divider {
   font-weight: light;
@@ -81,7 +81,7 @@
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 /* Track */
@@ -91,7 +91,8 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: rgb(179, 179, 179);
+  border-radius: 10px;
 }
 
 /* Handle on hover */

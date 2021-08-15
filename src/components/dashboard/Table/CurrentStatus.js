@@ -10,7 +10,7 @@ export const CurrentStatus = () => {
         data: [31, 40, 28, 51, 42, 109, 100],
       },
       {
-        name: "Sembuh",
+        name: "Normal",
         data: [11, 32, 45, 32, 34, 52, 41],
       },
     ],

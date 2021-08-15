@@ -1,112 +1,52 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Switch, Route } from "react-router-dom";
 import "./dashboard.css";
-import {
-  Layout,
-  Menu,
-  Input,
-  Badge,
-  Avatar,
-  Dropdown,
-  message,
-  Divider,
-} from "antd";
-import IcAmado from "../../../asset/ic_amado.png";
+import { Layout } from "antd";
 
-import {
-  PieChartOutlined,
-  TeamOutlined,
-  PushpinOutlined,
-  FileTextOutlined,
-  SearchOutlined,
-  NotificationOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+import { DashboardSidebar } from "../Sidebar/DashboardSidebar";
+import { DashboardHeader } from "../Header/DashboardHeader";
+import { DashboardFooter } from "../Footer/DashboardFooter";
+import { Statistik } from "../Content/Statistik";
+import { DaftarPasien } from "../Content/DaftarPasien";
+import { LokasiPasien } from "../Content/LokasiPasien";
+import { KontakErat } from "../Content/KontakErat";
+import { RekamMedis } from "../Content/RekamMedis";
+import { RekamMedisDetail } from "../Table/RekamMedisDetail";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
-export const DashboardLayout = (props) => {
-  const onClick = ({ key }) => {
-    message.info(`Click on item ${key}`);
-  };
-
-  // Drop Down menu
-  const menu = (
-    <Menu onClick={onClick}>
-      <Menu.Item key="1">1st menu item</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="2">2nd menu item</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3">3rd menu item</Menu.Item>
-    </Menu>
-  );
-
+export const DashboardLayout = () => {
   return (
     <Layout className="full">
-      <Sider className="sidebar" style={{ overflow: "scroll" }}>
-        <div className="logo">
-          <h1>Amado</h1>
-          <img src={IcAmado} alt="" />
-        </div>
-        <Menu theme="light" mode="inline" defaultSelectedKeys={["1"]}>
-          <p className="item-divider">Pasien</p>
-          <Divider className="menu-divider" />
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <Link to="/statistik">Statistik</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<TeamOutlined />}>
-            <Link to="/patients">Daftar Pasien</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<PushpinOutlined />}>
-            <Link to="/lokasi-pasien">Lokasi Pasien</Link>
-          </Menu.Item>
-          <Menu.Item key="4" icon={<PushpinOutlined />}>
-            <Link to="/kontak-erat">Lokasi Kontak Erat</Link>
-          </Menu.Item>
-          <Menu.Item key="5" icon={<FileTextOutlined />}>
-            <Link to="/rekam-medis">Rekam Medis</Link>
-          </Menu.Item>
+      <DashboardSidebar />
 
-          <p className="item-divider">Rumah Sakit</p>
-          <Divider className="menu-divider" />
-          <Menu.Item key="6" icon={<FileTextOutlined />}>
-            <Link to="/oksigen">Stok Oksigen</Link>
-          </Menu.Item>
-          <Menu.Item key="7" icon={<FileTextOutlined />}>
-            <Link to="/ruangan">Ruangan</Link>
-          </Menu.Item>
-
-          <p className="item-divider">Lainnya</p>
-          <Divider className="menu-divider" />
-          <Menu.Item key="8" icon={<FileTextOutlined />}>
-            <Link to="/profil">Profil</Link>
-          </Menu.Item>
-        </Menu>
-      </Sider>
       <Layout style={{ height: "100%" }}>
-        <Header theme="light" className="header">
-          <Input
-            className="header-input"
-            size="large"
-            placeholder="Search"
-            prefix={<SearchOutlined />}
-          />
-          <Badge count={5}>
-            <Avatar
-              icon={<NotificationOutlined />}
-              shape="circle"
-              size="large"
-            />
-          </Badge>
-          <img src="https://i.ibb.co/mX0GYNQ/1626148315802.png" alt="profile" />
-          <Dropdown overlay={menu}>
-            <a onClick={(e) => e.preventDefault()}>
-              Profile <DownOutlined />
-            </a>
-          </Dropdown>
-        </Header>
-        <Content style={{ height: "100%" }}>{props.children}</Content>
-        <Footer className="footer-dashboard">Amado Dashboard</Footer>
+        <DashboardHeader />
+
+        <Content style={{ height: "100%" }}>
+          <Switch>
+            <Route path="/statistik" exact>
+              <Statistik />
+            </Route>
+            <Route path="/patients">
+              <DaftarPasien />
+            </Route>
+            <Route path="/lokasi-pasien">
+              <LokasiPasien />
+            </Route>
+            <Route path="/kontak-erat">
+              <KontakErat />
+            </Route>
+            <Route path="/rekam-medis" exact>
+              <RekamMedis />
+            </Route>
+            <Route path="/rekam-medis/:id">
+              <RekamMedisDetail />
+            </Route>
+          </Switch>
+        </Content>
+
+        <DashboardFooter />
       </Layout>
     </Layout>
   );

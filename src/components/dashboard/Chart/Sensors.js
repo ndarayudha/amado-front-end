@@ -6,11 +6,11 @@ export const Sensors = () => {
     series: [
       {
         name: "Spo2",
-        data: [31, 40, 28, 51, 42, 109, 100],
+        data: [98, 99, 98, 99, 99, 99, 99],
       },
       {
         name: "Bpm",
-        data: [11, 32, 45, 32, 34, 52, 41],
+        data: [60, 65, 62, 65, 63, 66, 66],
       },
     ],
     chartOptions: {

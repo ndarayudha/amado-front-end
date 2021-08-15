@@ -14,7 +14,8 @@ const Login = () => {
   const history = useHistory();
 
   if (loginData !== null) {
-    history.replace("/dashboard");
+    // history.replace("/dashboard");
+    console.log(loginData);
   }
 
   const onClose = (e) => {};

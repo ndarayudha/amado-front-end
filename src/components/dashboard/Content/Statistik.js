@@ -6,8 +6,8 @@ import { Row, Col, Card, Layout } from "antd";
 import icBed from "../../../asset/ic_dashboard/ic_bed_dashboard.png";
 import icCloseContact from "../../../asset/ic_dashboard/ic_close_contact.png";
 import icMedicalRecord from "../../../asset/ic_dashboard/ic_record_dashboard.png";
-import { UsiaChart } from "../Chart/UsiaChart";
-import { JenisKelamin } from "../Chart/JenisKelamin";
+// import { UsiaChart } from "../Chart/UsiaChart";
+// import { JenisKelamin } from "../Chart/JenisKelamin";
 import { CurrentMonitoringList } from "../Table/CurrentMonitoringList";
 import { CurrentStatus } from "../Table/CurrentStatus";
 
@@ -70,37 +70,13 @@ export const Statistik = () => {
         <Col span={12} className="card-center">
           <CurrentMonitoringList />
         </Col>
-        <Col span={12} className="card-center">
+        <Col span={11} className="card-center">
           <CurrentStatus />
         </Col>
       </Row>
-      <Row
-        justify="start"
-        className="patient-stat"
-        style={{ height: "100%", marginTop: "10px" }}
-        data-aos="fade-up"
-      >
-        <Col span={24} className="card-center">
-          <div className="site-card-border-less-wrapper">
-            <Card
-              className="pie-center"
-              bordered={false}
-              style={{ width: 530, height: 350, marginTop: 30 }}
-            >
-              <UsiaChart />
-            </Card>
-          </div>
-          <div className="site-card-border-less-wrapper">
-            <Card
-              className="pie-center"
-              bordered={false}
-              style={{ width: 530, height: 350, marginTop: 30 }}
-            >
-              <JenisKelamin />
-            </Card>
-          </div>
-        </Col>
-      </Row>
+      <br />
+      <br />
+      <br />
       <br />
     </Layout>
   );
