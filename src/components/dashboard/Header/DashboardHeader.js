@@ -1,11 +1,7 @@
 import React from "react";
-import { Layout, Menu, Input, Badge, Avatar, Dropdown, message } from "antd";
+import { Layout, Menu, Input, Dropdown, message } from "antd";
 
-import {
-  SearchOutlined,
-  NotificationOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, DownOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
@@ -33,9 +29,9 @@ export const DashboardHeader = () => {
         placeholder="Search"
         prefix={<SearchOutlined />}
       />
-      <Badge count={5}>
+      {/* <Badge count={5}>
         <Avatar icon={<NotificationOutlined />} shape="circle" size="large" />
-      </Badge>
+      </Badge> */}
       <img src="https://i.ibb.co/mX0GYNQ/1626148315802.png" alt="profile" />
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>

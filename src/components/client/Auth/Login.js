@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Row, Col, Form, Input, Alert } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
@@ -8,13 +8,19 @@ import IcAmado from "../../../asset/ic_amado.png";
 import Button from "../../UI/Button";
 import useHttp from "../../../hooks/use-http";
 import { login } from "../../../lib/auth-api";
+import AuthContext from "../../../context/auth-context";
 
 const Login = () => {
   const { sendRequest, status, data: loginData, error } = useHttp(login);
   const history = useHistory();
 
+  const authCtx = useContext(AuthContext);
+
   if (loginData !== null) {
-    // history.replace("/dashboard");
+    const expirationTime = new Date(new Date().getTime() + 3600 * 1000);
+    authCtx.login(loginData.access_token, expirationTime.toISOString());
+    history.replace("/statistik");
+
     console.log(loginData);
   }
 

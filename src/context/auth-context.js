@@ -19,17 +19,17 @@ const calculateRemainingTime = (expirationTime) => {
   return remainingDuration;
 };
 
-// Ambil dari local storage
+// Ambil dari session storage
 const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem("token");
-  const storedExpirationDate = localStorage.getItem("expirationTime");
+  const storedToken = sessionStorage.getItem("token");
+  const storedExpirationDate = sessionStorage.getItem("expirationTime");
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
   // hapus jika sudah expired
   if (remainingTime <= 3600) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expirationTime");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("expirationTime");
     return null;
   }
 
@@ -53,8 +53,8 @@ export const AuthContextProvider = (props) => {
 
   const logoutHandler = useCallback(() => {
     setToken(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("expirationTime");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("expirationTime");
 
     if (logoutTimer) {
       clearTimeout(logoutTimer);
@@ -63,8 +63,8 @@ export const AuthContextProvider = (props) => {
 
   const loginHandler = (token, expirationTime) => {
     setToken(token);
-    localStorage.setItem("token", token);
-    localStorage.setItem("expirationTime", expirationTime);
+    sessionStorage.setItem("token", token);
+    sessionStorage.setItem("expirationTime", expirationTime);
 
     const remainingTime = calculateRemainingTime(expirationTime);
 
@@ -73,7 +73,7 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     if (tokenData) {
-      console.log(tokenData.duration);
+      console.log(`token duration ${tokenData.duration}`);
       logoutTimer = setTimeout(logoutHandler, tokenData.duration);
     }
   }, [tokenData, logoutHandler]);

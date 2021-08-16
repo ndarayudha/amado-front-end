@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
 import "./dashboard.css";
 import { Layout } from "antd";
 
@@ -12,10 +12,13 @@ import { LokasiPasien } from "../Content/LokasiPasien";
 import { KontakErat } from "../Content/KontakErat";
 import { RekamMedis } from "../Content/RekamMedis";
 import { RekamMedisDetail } from "../Table/RekamMedisDetail";
+import AuthContext from "../../../context/auth-context";
 
 const { Content } = Layout;
 
 export const DashboardLayout = () => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <Layout className="full">
       <DashboardSidebar />
@@ -26,22 +29,28 @@ export const DashboardLayout = () => {
         <Content style={{ height: "100%" }}>
           <Switch>
             <Route path="/statistik" exact>
-              <Statistik />
+              {authCtx.isLoggedIn && <Statistik />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/patients">
-              <DaftarPasien />
+              {authCtx.isLoggedIn && <DaftarPasien />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/lokasi-pasien">
-              <LokasiPasien />
+              {authCtx.isLoggedIn && <LokasiPasien />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/kontak-erat">
-              <KontakErat />
+              {authCtx.isLoggedIn && <KontakErat />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/rekam-medis" exact>
-              <RekamMedis />
+              {authCtx.isLoggedIn && <RekamMedis />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/rekam-medis/:id">
-              <RekamMedisDetail />
+              {authCtx.isLoggedIn && <RekamMedisDetail />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
           </Switch>
         </Content>
