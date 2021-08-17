@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Layout, Menu, Input, Dropdown, message } from "antd";
 
 import { SearchOutlined, DownOutlined } from "@ant-design/icons";
+import AuthContext from "../../../context/auth-context";
+import { useHistory } from "react-router-dom";
 
 const { Header } = Layout;
 
 export const DashboardHeader = () => {
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
+
   const onClick = ({ key }) => {
-    message.info(`Click on item ${key}`);
+    if (key === "1") {
+      authCtx.logout();
+      history.replace("/");
+    }
   };
 
   // Drop Down menu
   const menu = (
     <Menu onClick={onClick}>
-      <Menu.Item key="1">1st menu item</Menu.Item>
+      <Menu.Item key="1">Logout</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="2">2nd menu item</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3">3rd menu item</Menu.Item>
     </Menu>
   );
 

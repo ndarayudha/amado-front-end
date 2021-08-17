@@ -18,10 +18,8 @@ const Login = () => {
 
   if (loginData !== null) {
     const expirationTime = new Date(new Date().getTime() + 3600 * 1000);
-    authCtx.login(loginData.access_token, expirationTime.toISOString());
+    authCtx.login(loginData, expirationTime.toISOString());
     history.replace("/statistik");
-
-    console.log(loginData);
   }
 
   const onClose = (e) => {};

@@ -54,6 +54,7 @@ export const AuthContextProvider = (props) => {
   const logoutHandler = useCallback(() => {
     setToken(null);
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("id");
     sessionStorage.removeItem("expirationTime");
 
     if (logoutTimer) {
@@ -61,9 +62,10 @@ export const AuthContextProvider = (props) => {
     }
   }, []);
 
-  const loginHandler = (token, expirationTime) => {
-    setToken(token);
-    sessionStorage.setItem("token", token);
+  const loginHandler = (loginData, expirationTime) => {
+    setToken(loginData.access_token);
+    sessionStorage.setItem("token", loginData.access_token);
+    sessionStorage.setItem("id", loginData.user.id);
     sessionStorage.setItem("expirationTime", expirationTime);
 
     const remainingTime = calculateRemainingTime(expirationTime);
