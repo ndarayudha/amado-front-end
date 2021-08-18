@@ -1,13 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Row, Col, Image, Card } from "antd";
 import "./profil.css";
 import { ProfileForm } from "../Form/ProfileForm";
 import axios from "axios";
 
+const getIdDoctor = () => {
+  const storedId = sessionStorage.getItem("id");
+  return storedId ? storedId : "";
+};
+
 export const Profil = () => {
+  const [doctorBio, setDoctorBio] = useState("");
+
   useEffect(() => {
-    axios.get("http://localhost:8000/");
-  });
+    const doctorId = getIdDoctor();
+
+    axios({
+      method: "get",
+      url: `http://localhost:8000/doctor/bio?id=${doctorId}`,
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+        setDoctorBio(result.data.user);
+      });
+  }, []);
 
   return (
     <Layout>
@@ -24,7 +42,7 @@ export const Profil = () => {
               width={200}
               src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
             />
-            <ProfileForm />
+            {doctorBio && <ProfileForm biodata={doctorBio} />}
           </Card>
         </Col>
       </Row>

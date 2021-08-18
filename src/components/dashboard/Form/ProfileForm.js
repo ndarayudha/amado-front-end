@@ -1,5 +1,7 @@
-import React from "react";
-import { Form, Input, Button, Select } from "antd";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Select, DatePicker, message } from "antd";
+import axios from "axios";
+import moment from "moment";
 
 const { Option } = Select;
 
@@ -18,11 +20,42 @@ const tailLayout = {
   },
 };
 
-export const ProfileForm = () => {
+const getToken = () => {
+  const storedToken = sessionStorage.getItem("token");
+  return storedToken ? storedToken : "";
+};
+
+export const ProfileForm = (props) => {
   const [form] = Form.useForm();
+  const [token, setToken] = useState("");
+  const [info, setInfo] = useState("");
+
+  useEffect(() => {
+    const tokenBearer = getToken();
+    setToken(tokenBearer);
+  }, []);
 
   const onFinish = (values) => {
-    console.log(values);
+    let body = values;
+    body.tanggal_lahir = values.tanggal_lahir.format("DD MMMM YYYY");
+
+    axios({
+      method: "post",
+      url: `http://localhost:8000/doctor/update/`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: body,
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+        setInfo(result.data.message);
+        console.log(result.data.message);
+        message.success(result.data.message);
+      })
+      .catch(() => {
+        message.error("Pastikan data telah diisi dengan benar");
+      });
   };
 
   const onReset = () => {
@@ -34,24 +67,28 @@ export const ProfileForm = () => {
       {...layout}
       form={form}
       name="control-hooks"
+      initialValues={{
+        name: `${props.biodata.name}`,
+        email: `${props.biodata.email}`,
+        jenis_kelamin: `${props.biodata.jenis_kelamin}`,
+        tanggal_lahir: props.biodata.tanggal_lahir
+          ? moment(props.biodata.tanggal_lahir)
+          : "",
+        phone: `${props.biodata.phone}`,
+        address: `${props.biodata.address}`,
+        specialist: `${props.biodata.specialist}`,
+        hospital: `${props.biodata.hospital}`,
+      }}
       onFinish={onFinish}
       style={{ width: "60%" }}
     >
-      <Form.Item
-        name="name"
-        label="Nama"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
+      <Form.Item name="name" label="Nama">
         <Input />
       </Form.Item>
 
       <Form.Item
         name="email"
-        label="email"
+        label="Email"
         rules={[
           {
             required: true,
@@ -70,7 +107,10 @@ export const ProfileForm = () => {
           },
         ]}
       >
-        <Input />
+        <Select placeholder="Jenis Kelamin" allowClear>
+          <Option value="Laki - Laki">Laki - Laki</Option>
+          <Option value="Perempuan">Perempuan</Option>
+        </Select>
       </Form.Item>
 
       <Form.Item
@@ -86,7 +126,19 @@ export const ProfileForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="jenis_kelamin"
+        name="tanggal_lahir"
+        label="Tanggal Lahir"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <DatePicker />
+      </Form.Item>
+
+      <Form.Item
+        name="address"
         label="Alamat"
         rules={[
           {

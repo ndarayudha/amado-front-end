@@ -39,6 +39,11 @@ const retrieveStoredToken = () => {
   };
 };
 
+export const getIdDoctor = () => {
+  const storedId = sessionStorage.getItem("id");
+  return storedId.trim().length === 0 ? storedId : "";
+};
+
 export const AuthContextProvider = (props) => {
   const tokenData = retrieveStoredToken();
 
