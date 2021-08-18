@@ -7,6 +7,7 @@ const dashboardRoute = [
   "/oksigen",
   "/ruangan",
   "/profil",
+  "/konfirmasi",
 ];
 
 export default dashboardRoute;

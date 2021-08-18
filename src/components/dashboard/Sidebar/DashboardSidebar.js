@@ -25,30 +25,33 @@ export const DashboardSidebar = () => {
           <Link to="/statistik">Statistik</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<TeamOutlined />}>
+          <Link to="/konfirmasi">Konfrimasi Pasien</Link>
+        </Menu.Item>
+        <Menu.Item key="3" icon={<TeamOutlined />}>
           <Link to="/patients">Daftar Pasien</Link>
         </Menu.Item>
-        <Menu.Item key="3" icon={<PushpinOutlined />}>
+        <Menu.Item key="4" icon={<PushpinOutlined />}>
           <Link to="/lokasi-pasien">Lokasi Pasien</Link>
         </Menu.Item>
-        <Menu.Item key="4" icon={<PushpinOutlined />}>
+        <Menu.Item key="5" icon={<PushpinOutlined />}>
           <Link to="/kontak-erat">Lokasi Kontak Erat</Link>
         </Menu.Item>
-        <Menu.Item key="5" icon={<FileTextOutlined />}>
+        <Menu.Item key="6" icon={<FileTextOutlined />}>
           <Link to="/rekam-medis">Rekam Medis</Link>
         </Menu.Item>
 
         <p className="item-divider">Rumah Sakit</p>
         <Divider className="menu-divider" />
-        <Menu.Item key="6" icon={<FileTextOutlined />}>
+        <Menu.Item key="7" icon={<FileTextOutlined />}>
           <Link to="/oksigen">Stok Oksigen</Link>
         </Menu.Item>
-        <Menu.Item key="7" icon={<FileTextOutlined />}>
+        <Menu.Item key="8" icon={<FileTextOutlined />}>
           <Link to="/ruangan">Ruangan</Link>
         </Menu.Item>
 
         <p className="item-divider">Lainnya</p>
         <Divider className="menu-divider" />
-        <Menu.Item key="8" icon={<FileTextOutlined />}>
+        <Menu.Item key="9" icon={<FileTextOutlined />}>
           <Link to="/profil">Profil</Link>
         </Menu.Item>
       </Menu>

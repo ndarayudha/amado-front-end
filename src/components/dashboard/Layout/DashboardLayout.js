@@ -15,6 +15,7 @@ import { RekamMedisDetail } from "../Table/RekamMedisDetail";
 import { Profil } from "../Content/Profil";
 import { Oksigen } from "../Content/Oksigen";
 import { Ruangan } from "../Content/Ruangan";
+import { Konfirmasi } from "../Content/Konfirmasi";
 import AuthContext from "../../../context/auth-context";
 
 const { Content } = Layout;
@@ -37,6 +38,10 @@ export const DashboardLayout = () => {
             </Route>
             <Route path="/patients">
               {authCtx.isLoggedIn && <DaftarPasien />}
+              {!authCtx.isLoggedIn && <Redirect to="/login" />}
+            </Route>
+            <Route path="/konfirmasi" exact>
+              {authCtx.isLoggedIn && <Konfirmasi />}
               {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/lokasi-pasien">

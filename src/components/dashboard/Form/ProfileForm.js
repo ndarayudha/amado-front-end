@@ -28,7 +28,6 @@ const getToken = () => {
 export const ProfileForm = (props) => {
   const [form] = Form.useForm();
   const [token, setToken] = useState("");
-  const [info, setInfo] = useState("");
 
   useEffect(() => {
     const tokenBearer = getToken();
@@ -49,7 +48,6 @@ export const ProfileForm = (props) => {
         return response;
       })
       .then((result) => {
-        setInfo(result.data.message);
         console.log(result.data.message);
         message.success(result.data.message);
       })
