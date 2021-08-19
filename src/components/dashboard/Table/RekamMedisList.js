@@ -1,60 +1,58 @@
-import React, { useState } from "react";
-import { Table, Input, Button, Space } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Input, Button, Space, Tag } from "antd";
 import Highlighter from "react-highlight-words";
 import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import "./rekam-medis-list.css";
-
-const data = [
-  {
-    key: "1",
-    idRecord: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    spo2: "99",
-    bpm: "120",
-    status: "belum diproses",
-    action: "",
-  },
-  {
-    key: "2",
-    idRecord: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    spo2: "99",
-    bpm: "120",
-    status: "belum diproses",
-    action: "",
-  },
-  {
-    key: "3",
-    idRecord: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    spo2: "99",
-    bpm: "120",
-    status: "belum diproses",
-    action: "",
-  },
-  {
-    key: "4",
-    idRecord: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-    spo2: "99",
-    bpm: "120",
-    status: "belum diproses",
-    action: "",
-  },
-];
+import axios from "axios";
 
 let searchInput = "";
 
 export const RekamMedisList = () => {
+  const [medicalRecords, setMedicalRecords] = useState();
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `http://localhost:8000/doctor/patient/records`,
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+        setMedicalRecords(result.data.records);
+      })
+      .catch(() => {});
+  }, []);
+
+  let patientRecord = [];
+
+  if (medicalRecords !== undefined) {
+    for (const i in medicalRecords) {
+      // apakah pasien punya rekam medis?
+      let isMedicalRecordExist = medicalRecords[i].medicalRecord.length !== 0;
+
+      for (const j in medicalRecords[i].medicalRecord) {
+        if (isMedicalRecordExist) {
+          patientRecord.push({
+            key: medicalRecords[i].medicalRecord[j].id,
+            idRecord: medicalRecords[i].medicalRecord[j].id,
+            name: medicalRecords[i].name,
+            age: "20",
+            address: medicalRecords[i].alamat,
+            spo2: medicalRecords[i].medicalRecord[j].averrage_spo2,
+            bpm: medicalRecords[i].medicalRecord[j].averrage_bpm,
+            status: medicalRecords[i].medicalRecord[j].konfirmasi,
+          });
+        }
+      }
+    }
+
+    console.log(patientRecord);
+  }
+
+  // console.log(medicalRecords);
+
   const [search, setSearch] = useState({
     searchText: "",
     searchedColumn: "",
@@ -214,11 +212,19 @@ export const RekamMedisList = () => {
       width: "20%",
       render: (id, record) => (
         <Space size="middle">
-          <Link to={`/rekam-medis/${id}`}>Proses</Link>
+          <Link to={`/rekam-medis/${id}`}>
+            <Tag color="blue">Proses</Tag>
+          </Link>
+          <Link to={`/rekam-medis/${id}`}>
+            <Tag color="red">Hapus</Tag>
+          </Link>
+          <Link to={`/rekam-medis/${id}`}>
+            <Tag color="orange">Detail</Tag>
+          </Link>
         </Space>
       ),
     },
   ];
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={patientRecord} />;
 };
