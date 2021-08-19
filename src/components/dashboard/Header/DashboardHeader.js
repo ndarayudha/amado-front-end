@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Layout, Menu, Input, Dropdown, message } from "antd";
+import { Layout, Menu, Input, Dropdown, message, Image } from "antd";
 
 import { SearchOutlined, DownOutlined } from "@ant-design/icons";
 import AuthContext from "../../../context/auth-context";
@@ -37,10 +37,13 @@ export const DashboardHeader = () => {
       {/* <Badge count={5}>
         <Avatar icon={<NotificationOutlined />} shape="circle" size="large" />
       </Badge> */}
-      <img src="https://i.ibb.co/mX0GYNQ/1626148315802.png" alt="profile" />
+      <Image
+        width={50}
+        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+      />
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>
-          Profile <DownOutlined />
+          <DownOutlined />
         </a>
       </Dropdown>
     </Header>

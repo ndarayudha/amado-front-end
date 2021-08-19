@@ -5,15 +5,12 @@ export const DetailMap = (props) => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState({ maps: null });
 
-  const coords = { lat: -8.459048035289157, lng: 114.25965552010263 };
-
   const showAddress = (searchService, ui, lat, lon) => {
     searchService.reverseGeocode(
       {
         at: `${lat},${lon}`,
       },
       (result) => {
-        console.log(result);
         result.items.forEach((item) => {
           // Assumption: ui is instantiated
           // Create an InfoBubble at the returned location with
@@ -37,6 +34,16 @@ export const DetailMap = (props) => {
     'fill="white">N</text></svg>';
 
   useEffect(() => {
+    let latitude;
+    let longitude;
+    latitude = props.coordinat[0].latitude;
+    longitude = props.coordinat[0].longitude;
+
+    let coords = {
+      lat: latitude ? +latitude : -8.293950922401178,
+      lng: longitude ? +longitude : 114.3069183830892,
+    };
+
     const platform = new H.service.Platform({
       apikey: "av0Ttdg16tP9K8FkILYTYscMzPzWExqyJTO3N05RJwM",
     });

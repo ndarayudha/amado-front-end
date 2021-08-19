@@ -36,7 +36,7 @@ export const DashboardLayout = () => {
               {authCtx.isLoggedIn && <Statistik />}
               {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
-            <Route path="/patients">
+            <Route path="/patients" exact>
               {authCtx.isLoggedIn && <DaftarPasien />}
               {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
