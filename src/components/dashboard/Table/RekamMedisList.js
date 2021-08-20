@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Button, Space, Tag } from "antd";
+import {
+  Table,
+  Input,
+  Button,
+  Space,
+  Tag,
+  Skeleton,
+  Popconfirm,
+  message,
+  Card,
+} from "antd";
 import Highlighter from "react-highlight-words";
 import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
@@ -10,8 +20,14 @@ let searchInput = "";
 
 export const RekamMedisList = () => {
   const [medicalRecords, setMedicalRecords] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDelete, setDelete] = useState();
 
   useEffect(() => {
+    getRecordList();
+  }, []);
+
+  const getRecordList = () => {
     axios({
       method: "get",
       url: `http://localhost:8000/doctor/patient/records`,
@@ -21,9 +37,10 @@ export const RekamMedisList = () => {
       })
       .then((result) => {
         setMedicalRecords(result.data.records);
+        setIsLoading(!isLoading);
       })
       .catch(() => {});
-  }, []);
+  };
 
   let patientRecord = [];
 
@@ -42,16 +59,12 @@ export const RekamMedisList = () => {
             address: medicalRecords[i].alamat,
             spo2: medicalRecords[i].medicalRecord[j].averrage_spo2,
             bpm: medicalRecords[i].medicalRecord[j].averrage_bpm,
-            status: medicalRecords[i].medicalRecord[j].konfirmasi,
+            konfirmasi: medicalRecords[i].medicalRecord[j].konfirmasi,
           });
         }
       }
     }
-
-    console.log(patientRecord);
   }
-
-  // console.log(medicalRecords);
 
   const [search, setSearch] = useState({
     searchText: "",
@@ -199,25 +212,35 @@ export const RekamMedisList = () => {
       ...getColumnSearchProps("bpm"),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: "Konfirmasi",
+      dataIndex: "konfirmasi",
+      key: "konfirmasi",
       width: "15%",
-      ...getColumnSearchProps("status"),
+      ...getColumnSearchProps("konfirmasi"),
     },
     {
       title: "Aksi",
       dataIndex: "idRecord",
       key: "action",
-      width: "20%",
+      width: "30%",
       render: (id, record) => (
         <Space size="middle">
           <Link to={`/rekam-medis/${id}`}>
             <Tag color="blue">Proses</Tag>
           </Link>
-          <Link to={`/rekam-medis/${id}`}>
-            <Tag color="red">Hapus</Tag>
-          </Link>
+          <Popconfirm
+            title="Hapus Rekam Medis ini?"
+            onConfirm={() => {
+              confirm(id);
+            }}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Tag color="red" style={{ cursor: "pointer" }}>
+              Hapus
+            </Tag>
+          </Popconfirm>
           <Link to={`/rekam-medis/${id}`}>
             <Tag color="orange">Detail</Tag>
           </Link>
@@ -226,5 +249,42 @@ export const RekamMedisList = () => {
     },
   ];
 
-  return <Table columns={columns} dataSource={patientRecord} />;
+  const confirm = (id) => {
+    axios({
+      method: "delete",
+      url: `http://localhost:8000/doctor/record/delete?id=${id}`,
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+        setDelete(true);
+      })
+      .catch(() => {});
+    message.success("Rekam Medis berhasil dihapus");
+    getRecordList();
+  };
+
+  const cancel = (e) => {
+    message.error("Hapus rekam medis dibatalkan");
+  };
+
+  return (
+    <div>
+      {isLoading ? (
+        <Card>
+          <Skeleton />
+        </Card>
+      ) : (
+        <Card>
+          <div>
+            <Button type="primary" style={{ marginBottom: "10px" }}>
+              Tambah Rekam Medis
+            </Button>
+            <Table columns={columns} dataSource={patientRecord} />
+          </div>
+        </Card>
+      )}
+    </div>
+  );
 };

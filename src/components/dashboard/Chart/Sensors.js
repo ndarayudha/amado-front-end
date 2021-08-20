@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
+import axios from "axios";
 
-export const Sensors = () => {
-  const [options, setOptons] = useState({
+export const Sensors = (props) => {
+  const [dataSensor, setDataSensor] = useState();
+
+  const options = {
     series: [
       {
         name: "Spo2",
-        data: [98, 99, 98, 99, 99, 99, 99],
+        data: [],
       },
       {
         name: "Bpm",
-        data: [60, 65, 62, 65, 63, 66, 66],
+        data: [],
       },
     ],
     chartOptions: {
@@ -26,15 +29,7 @@ export const Sensors = () => {
       },
       xaxis: {
         type: "datetime",
-        categories: [
-          "2018-09-19T00:00:00.000Z",
-          "2018-09-19T01:30:00.000Z",
-          "2018-09-19T02:30:00.000Z",
-          "2018-09-19T03:30:00.000Z",
-          "2018-09-19T04:30:00.000Z",
-          "2018-09-19T05:30:00.000Z",
-          "2018-09-19T06:30:00.000Z",
-        ],
+        categories: [],
       },
       tooltip: {
         x: {
@@ -42,7 +37,29 @@ export const Sensors = () => {
         },
       },
     },
-  });
+  };
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `http://localhost:8000/doctor/patient/pulse?id=${props.patientId}`,
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+        setDataSensor(result.data.data);
+      })
+      .catch(() => {});
+  }, [props.patientId]);
+
+  if (dataSensor !== undefined) {
+    for (let j = 0; j < dataSensor.length; j++) {
+      options.series[0].data.push(parseInt(dataSensor[j].spo2));
+      options.series[1].data.push(parseInt(dataSensor[j].bpm));
+      options.chartOptions.xaxis.categories.push(dataSensor[j].created_at);
+    }
+  }
 
   return (
     <div className="Area">
