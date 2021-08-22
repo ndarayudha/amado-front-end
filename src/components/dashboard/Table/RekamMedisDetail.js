@@ -107,7 +107,7 @@ export const RekamMedisDetail = () => {
                   <KontakPasienMap patientId={id} />
                 </TabPane>
                 <TabPane tab="Penanganan" key="3">
-                  <Penanganan />
+                  <Penanganan pasien={biodata} />
                 </TabPane>
               </Tabs>
             ) : (
