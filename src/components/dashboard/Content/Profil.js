@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Layout,
   Row,
@@ -14,28 +14,34 @@ import "./profil.css";
 import { ProfileForm } from "../Form/ProfileForm";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+import AuthContext from "../../../context/auth-context";
 
 const getIdDoctor = () => {
   const storedId = sessionStorage.getItem("id");
   return storedId ? storedId : "";
 };
 
-const getToken = () => {
-  const storedToken = sessionStorage.getItem("token");
-  return storedToken ? storedToken : "";
-};
-
 export const Profil = () => {
   const [doctorBio, setDoctorBio] = useState("");
-  const [token, setToken] = useState("");
   const [photo, setPhoto] = useState("");
+  const doctorId = getIdDoctor();
+
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
 
   useEffect(() => {
-    const doctorId = getIdDoctor();
-    const tokenBearer = getToken();
-    setToken(tokenBearer);
-
-    getPhoto();
+    axios({
+      method: "post",
+      url: `http://localhost:8000/doctor/user-profile`,
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+        setPhoto(result.data.message);
+      })
+      .catch(() => {});
 
     axios({
       method: "get",
@@ -47,7 +53,7 @@ export const Profil = () => {
       .then((result) => {
         setDoctorBio(result.data.user);
       });
-  }, [token]);
+  }, [token, doctorId]);
 
   // * Send Photo base 64
   const sendPhoto = (base64) => {
@@ -74,22 +80,6 @@ export const Profil = () => {
       });
   };
 
-  // * Get photo base 64
-  const getPhoto = () => {
-    axios({
-      method: "post",
-      url: `http://localhost:8000/doctor/user-profile`,
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        return response;
-      })
-      .then((result) => {
-        setPhoto(result.data.message);
-      })
-      .catch(() => {});
-  };
-
   const props = {
     name: "file",
     action: "http://localhost:8000/doctor/add-profile-photo",
@@ -97,9 +87,6 @@ export const Profil = () => {
       authorization: `Bearer ${token}`,
     },
     onChange(info) {
-      if (info.file.status !== "uploading") {
-        // console.log(info.file, info.fileList);
-      }
       if (info.file.status === "done") {
         let reader = new FileReader();
         reader.onloadend = () => {
@@ -147,11 +134,7 @@ export const Profil = () => {
               <Skeleton active style={{ width: "20px" }} />
             )}
 
-            {doctorBio ? (
-              <ProfileForm biodata={doctorBio} />
-            ) : (
-              <Skeleton active />
-            )}
+            {photo ? <ProfileForm biodata={doctorBio} /> : <Skeleton active />}
           </Card>
         </Col>
       </Row>

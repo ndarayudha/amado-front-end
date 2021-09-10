@@ -1,0 +1,42 @@
+.surat-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.kop-kontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.rs-title-container {
+  display: block;
+  min-width: 300px;
+  margin-left: 50px;
+}
+
+.surat-title {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.rs-title-container h4 {
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
+.ant-modal-body {
+  display: flex;
+  justify-content: center;
+}
+
+.keterangan-surat .ket {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ttd {
+}

@@ -1,0 +1,12 @@
+.dropdown-padding{
+    padding: 20px;
+}
+.overlay{
+    position: fixed;
+    background: rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 100;
+    width: 100%;
+}
