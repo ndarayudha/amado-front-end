@@ -15,6 +15,8 @@ import { ProfileForm } from "../Form/ProfileForm";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import AuthContext from "../../../context/auth-context";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const getIdDoctor = () => {
   const storedId = sessionStorage.getItem("id");
@@ -28,6 +30,13 @@ export const Profil = () => {
 
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
+
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+    AOS.refresh();
+  }, []);
 
   useEffect(() => {
     axios({

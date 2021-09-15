@@ -15,6 +15,8 @@ import {
 import { SearchOutlined, DownOutlined, BellFilled } from "@ant-design/icons";
 import AuthContext from "../../../context/auth-context";
 import { useHistory } from "react-router-dom";
+import { NotificationConfirmPatient } from "./Notification/NotificationConfirmPatient";
+import { NotificationMedicalRecord } from "./Notification/NotificationMedicalRecord";
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -51,34 +53,7 @@ function callback(key) {
   console.log(key);
 }
 
-const notificationList = (
-  <Menu className="dropdown-padding">
-    <Tabs defaultActiveKey="1" onChange={callback}>
-      <TabPane tab="Pasien Baru" key="1">
-        <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.antgroup.com"
-          >
-            1st menu item
-          </a>
-        </Menu.Item>
-      </TabPane>
-      <TabPane tab="Rekam Medis" key="2">
-        <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.antgroup.com"
-          >
-            2st menu item
-          </a>
-        </Menu.Item>
-      </TabPane>
-    </Tabs>
-  </Menu>
-);
+
 
 export const DashboardHeader = () => {
   const authCtx = useContext(AuthContext);
@@ -100,12 +75,28 @@ export const DashboardHeader = () => {
     </Menu>
   );
 
+  
+
   const onVisibleHandler = (visible) => {
     if(visible){
       setOverlay(!overlay);
     }
     setOverlay(!overlay);
   };
+  
+
+  const notificationList = (
+    <Menu className="dropdown-padding">
+      <Tabs defaultActiveKey="1" onChange={callback}>
+        <TabPane tab="Pasien Baru" key="1">
+            <NotificationConfirmPatient onClick={onVisibleHandler}/>
+        </TabPane>
+        <TabPane tab="Rekam Medis" key="2">
+            <NotificationMedicalRecord/>
+        </TabPane>
+      </Tabs>
+    </Menu>
+  );
 
   return (
     <div className={`${overlay ? 'overlay' : ''}`}>
@@ -121,16 +112,14 @@ export const DashboardHeader = () => {
             overlay={notificationList}
             placement="bottomCenter"
             className="dropdown-notification"
-            onVisibleChange={(visibility) => onVisibleHandler(visibility)}
+            onVisibleChange={(visibility) => {
+              onVisibleHandler(visibility);
+            }}
+            trigger={['click']}
           >
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              <Badge count={5}>
-                <BellFilled style={{ fontSize: "22px" }} />
-              </Badge>
-            </a>
+            <Badge count={5}>
+                <BellFilled style={{ fontSize: "22px", cursor: "pointer" }} />
+            </Badge>
           </Dropdown>
         </div>
         <Image

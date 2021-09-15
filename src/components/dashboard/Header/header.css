@@ -1,12 +1,22 @@
 .dropdown-padding{
     padding: 20px;
+    display: flex;
+    justify-content:center;
 }
 .overlay{
     position: fixed;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.4);
     top: 0;
     left: 0;
     height: 100%;
     z-index: 100;
     width: 100%;
+}
+.dropdown-padding .ant-tabs-nav-wrap {
+    text-align: c;
+    display: flex;
+    justify-content: center;
+}
+.dropdown-notification{
+    max-height: 50px;
 }

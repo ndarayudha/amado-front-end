@@ -2,10 +2,19 @@ import React, { useRef, useState, useEffect } from "react";
 import H from "@here/maps-api-for-javascript";
 import "./kontak-erat.css";
 import { Row, Col, Layout, Card } from "antd";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const KontakErat = (props) => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState({ maps: null });
+
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+    AOS.refresh();
+  }, []);
 
   useEffect(() => {
     const platform = new H.service.Platform({

@@ -1,9 +1,9 @@
 const dashboardRoute = [
-  "/statistik",
   "/patients",
   "/lokasi-pasien",
   "/kontak-erat",
   "/rekam-medis",
+  "/statistik",
   "/oksigen",
   "/ruangan",
   "/profil",

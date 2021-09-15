@@ -6,8 +6,6 @@ import { Row, Col, Card, Layout } from "antd";
 import icBed from "../../../asset/ic_dashboard/ic_bed_dashboard.png";
 import icCloseContact from "../../../asset/ic_dashboard/ic_close_contact.png";
 import icMedicalRecord from "../../../asset/ic_dashboard/ic_record_dashboard.png";
-// import { UsiaChart } from "../Chart/UsiaChart";
-// import { JenisKelamin } from "../Chart/JenisKelamin";
 import { CurrentMonitoringList } from "../Table/CurrentMonitoringList";
 import { CurrentStatus } from "../Table/CurrentStatus";
 

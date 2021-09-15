@@ -1,0 +1,15 @@
+.notification-item{
+    width: 100%;
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+    align-content: center;
+    margin:auto;
+    border-bottom: 0.2px solid rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+}
+.notification-item h3, p{
+    font-weight: 600;
+    opacity: 0.7;
+    margin: 0;
+}

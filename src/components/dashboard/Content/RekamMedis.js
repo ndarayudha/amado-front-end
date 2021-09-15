@@ -1,11 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Row, Col, Layout, Input, Card } from "antd";
 import "./rekam-medis.css";
 import { RekamMedisList } from "../Table/RekamMedisList";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const RekamMedis = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+    AOS.refresh();
+  }, []);
+
   return (
-    <Layout>
+    <div>
       <Row
         gutter={16}
         justify="center"
@@ -17,6 +26,6 @@ export const RekamMedis = () => {
           <RekamMedisList />
         </Col>
       </Row>
-    </Layout>
+    </div>
   );
 };

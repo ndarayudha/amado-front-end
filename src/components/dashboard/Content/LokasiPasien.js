@@ -3,10 +3,19 @@ import H from "@here/maps-api-for-javascript";
 import "./lokasi-pasien.css";
 import { Row, Col, Layout, Card } from "antd";
 import axios from "axios";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const LokasiPasien = (props) => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState({ maps: null });
+
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+    AOS.refresh();
+  }, []);
 
   useEffect(() => {
     axios

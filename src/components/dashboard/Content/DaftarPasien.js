@@ -15,6 +15,8 @@ import "./daftar-pasien.css";
 import { DetailMap } from "../Maps/DetailMap";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const DaftarPasien = () => {
   const [patients, setPatients] = useState();
@@ -26,6 +28,13 @@ export const DaftarPasien = () => {
 
   useEffect(() => {
     getListPatient();
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+    AOS.refresh();
   }, []);
 
   // * Get detail patient

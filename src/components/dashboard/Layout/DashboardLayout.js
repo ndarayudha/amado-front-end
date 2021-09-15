@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import "./dashboard.css";
 import { Layout } from "antd";
 
@@ -22,6 +22,7 @@ const { Content } = Layout;
 
 export const DashboardLayout = () => {
   const authCtx = useContext(AuthContext);
+  let location = useLocation();
 
   return (
     <Layout className="full">
@@ -32,16 +33,16 @@ export const DashboardLayout = () => {
 
         <Content style={{ height: "100%" }}>
           <Switch>
-            <Route path="/statistik" exact>
-              {authCtx.isLoggedIn && <Statistik />}
+            <Route path="/konfirmasi" exact>
+              {authCtx.isLoggedIn && <Konfirmasi />}
               {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
-            <Route path="/patients" exact>
+            <Route path='/patients' exact>
               {authCtx.isLoggedIn && <DaftarPasien />}
               {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
-            <Route path="/konfirmasi" exact>
-              {authCtx.isLoggedIn && <Konfirmasi />}
+            <Route path="/statistik">
+              {authCtx.isLoggedIn && <Statistik />}
               {!authCtx.isLoggedIn && <Redirect to="/login" />}
             </Route>
             <Route path="/lokasi-pasien">
