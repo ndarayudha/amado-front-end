@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import "./rekam-medis-list.css";
 import axios from "axios";
+import {url} from '../../../util/endpoints'
 
 let searchInput = "";
 
@@ -30,7 +31,7 @@ export const RekamMedisList = () => {
   const getRecordList = () => {
     axios({
       method: "get",
-      url: `http://localhost:8000/doctor/patient/records`,
+      url: `${url.prod}/doctor/patient/records`,
     })
       .then((response) => {
         return response;
@@ -241,9 +242,9 @@ export const RekamMedisList = () => {
               Hapus
             </Tag>
           </Popconfirm>
-          <Link to={`/rekam-medis/${id}`}>
+          {/* <Link to={`/rekam-medis/${id}`}>
             <Tag color="orange">Detail</Tag>
-          </Link>
+          </Link> */}
         </Space>
       ),
     },
@@ -252,7 +253,7 @@ export const RekamMedisList = () => {
   const confirm = (id) => {
     axios({
       method: "delete",
-      url: `http://localhost:8000/doctor/record/delete?id=${id}`,
+      url: `${url.prod}/doctor/record/delete?id=${id}`,
     })
       .then((response) => {
         return response;
@@ -278,9 +279,9 @@ export const RekamMedisList = () => {
       ) : (
         <Card>
           <div>
-            <Button type="primary" style={{ marginBottom: "10px" }}>
+            {/* <Button type="primary" style={{ marginBottom: "10px" }}>
               Tambah Rekam Medis
-            </Button>
+            </Button> */}
             <Table columns={columns} dataSource={patientRecord} />
           </div>
         </Card>

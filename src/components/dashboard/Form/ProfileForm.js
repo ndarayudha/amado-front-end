@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Select, DatePicker, message } from "antd";
 import axios from "axios";
 import moment from "moment";
+import {url} from '../../../util/endpoints';
 
 const { Option } = Select;
 
@@ -40,7 +41,7 @@ export const ProfileForm = (props) => {
 
     axios({
       method: "post",
-      url: `http://localhost:8000/doctor/update/`,
+      url: `${url.prod}/doctor/update/`,
       headers: { Authorization: `Bearer ${token}` },
       data: body,
     })

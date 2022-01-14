@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className={classes["menu-icon"]} onClick={clickedHandler}>
         <i className={clicked && choose ? "fas fa-times" : "fas fa-bars"}></i>
       </div>
-      <ul
+      {/* <ul
         className={clicked ? classes["nav-menu-active"] : classes["nav-menu"]}
       >
         <li key="nav-1">
@@ -59,7 +59,7 @@ const Navbar = () => {
             Download
           </NavLink>
         </li>
-      </ul>
+      </ul> */}
     </nav>
   );
 };

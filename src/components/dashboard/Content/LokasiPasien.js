@@ -1,105 +1,69 @@
-import React, { useRef, useState, useEffect } from "react";
-import H from "@here/maps-api-for-javascript";
+import React, { useEffect } from "react";
+import GoogleMapReact from "google-map-react";
 import "./lokasi-pasien.css";
 import { Row, Col, Layout, Card } from "antd";
 import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { url } from "../../../util/endpoints";
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 export const LokasiPasien = (props) => {
-  const mapRef = useRef(null);
-  const [mapInstance, setMapInstance] = useState({ maps: null });
+  const defaultProps = {
+    center: {
+      lat: 59.95,
+      lng: 30.33,
+    },
+    zoom: 11,
+  };
 
-  useEffect(() => {
-    AOS.init({
-      duration: 300,
-    });
-    AOS.refresh();
-  }, []);
+  // useEffect(() => {
+  //   AOS.init({
+  //     duration: 300,
+  //   });
+  //   AOS.refresh();
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/doctor/geolocation/patient/all`)
-      .then((res) => {
-        let location = "";
+  //   axios.get(`${url.prod}/doctor/geolocation/patient/all`).then((res) => {
+  //     let location = "";
 
-        location = res.data.data;
+  //     location = res.data.data;
 
-        const platform = new H.service.Platform({
-          apikey: "av0Ttdg16tP9K8FkILYTYscMzPzWExqyJTO3N05RJwM",
-        });
-
-        const defaultLayers = platform.createDefaultLayers();
-
-        let service = platform.getSearchService();
-
-        for (const key in location) {
-          service.reverseGeocode(
-            {
-              at: `${location[key].latitude},${location[key].longitude}`,
-            },
-            (result) => {
-              result.items.forEach((item) => {
-                ui.addBubble(
-                  new H.ui.InfoBubble(item.position, {
-                    content: `Nama: ${location[key].name}, Alamat: ${item.address.label}`,
-                  })
-                );
-              });
-            }
-          );
-        }
-
-        // Create an instance of the map
-        const patientMap = new H.Map(
-          mapRef.current,
-          defaultLayers.vector.normal.map,
-          {
-            center: { lat: -8.459048035289157, lng: 114.25965552010263 },
-            zoom: 9,
-            pixelRatio: window.devicePixelRatio || 1,
-          }
-        );
-
-        const behavior = new H.mapevents.Behavior(
-          new H.mapevents.MapEvents(patientMap)
-        );
-
-        const ui = H.ui.UI.createDefault(patientMap, defaultLayers);
-
-        let mapSettings = ui.getControl("mapsettings");
-        let zoom = ui.getControl("zoom");
-        let scalebar = ui.getControl("scalebar");
-
-        mapSettings.setAlignment("top-left");
-        zoom.setAlignment("top-left");
-        scalebar.setAlignment("top-left");
-
-        setMapInstance({ maps: patientMap });
-      });
-
-    return setMapInstance({ maps: null });
-  }, [mapRef]);
+  //     console.log(location);
+  //   });
+  // }, []);
 
   return (
-    <Layout>
-      <Row
-        gutter={16}
-        justify="center"
-        className="patient-map-stat"
-        style={{ height: "100%" }}
-        data-aos="fade-up"
-      >
-        <Col span={22}>
-          <Card style={{ width: "100%" }}>
-            <div
-              ref={mapRef}
-              className="patient-all-map"
-              id="patient-map-container"
-            ></div>
-          </Card>
+    <Row
+
+      style={{ height: "100vh", width: "100%" }}
+      data-aos="fade-up"
+      justify="center"
+      align="center"
+      className="patient-map-stat"
+    >
+      <Card style={{ width: "100%", margin: "0 20px" }}>
+        <Col span={8}>
+          <h1>Right</h1>
         </Col>
-      </Row>
-    </Layout>
+        <Col span={16}>
+          <div style={{ height: "100vh", width: "100%" }}>
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: "AIzaSyDFxk7pvFBDdyXU30zjjjMo2h5wqovB308",
+              }}
+              defaultCenter={defaultProps.center}
+              defaultZoom={defaultProps.zoom}
+            >
+              <AnyReactComponent
+                lat={59.955413}
+                lng={30.337844}
+                text="My Marker"
+              />
+            </GoogleMapReact>
+          </div>
+        </Col>
+      </Card>
+    </Row>
   );
 };

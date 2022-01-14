@@ -4,6 +4,7 @@ import icAmado from "../../../../asset/ic_amado.png";
 import { Divider, Descriptions, Row, Col } from "antd";
 import moment from "moment";
 import axios from "axios";
+import {url} from '../../../../util/endpoints';
 
 const getIdDoctor = () => {
   const storedId = sessionStorage.getItem("id");
@@ -22,7 +23,7 @@ export const RawatInap = (props) => {
 
     axios({
       method: "get",
-      url: `http://localhost:8000/doctor/bio?id=${doctorId}`,
+      url: `${url.prod}/doctor/bio?id=${doctorId}`,
     })
       .then((response) => {
         return response;

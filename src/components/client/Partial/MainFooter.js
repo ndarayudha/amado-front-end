@@ -31,7 +31,7 @@ const MainFooter = () => {
           <Col xs={24} xl={5}>
             <h3>Support</h3>
             <a href="https://www.instagram.com/amado_ehealth/">Vectorjuice</a>
-            <a href="https://www.instagram.com/amado_ehealth/">LTE Team</a>
+            <a href="https://bit.ly/pre-order-amado">Preorder</a>
             <a href="https://www.instagram.com/amado_ehealth/">Jayla Tech.id</a>
             <a href="https://www.instagram.com/amado_ehealth/">Kontribusi</a>
           </Col>

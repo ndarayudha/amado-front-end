@@ -143,10 +143,9 @@ const HomeContent = () => {
               <div className={classes.description}>
                 <h1>Aplikasi Kami Telah Tersedia</h1>
                 <h4>
-                  Aplikasi kami telah tersedia untuk platform Android, download
-                  sekarang melalui Google Playstore
+                  Alat kami juga terintegrasi dengan aplikasi Andrdoid
                 </h4>
-                <Button second={false}>Download</Button>
+                {/* <Button second={false}>Download</Button> */}
               </div>
             </aside>
           </Col>

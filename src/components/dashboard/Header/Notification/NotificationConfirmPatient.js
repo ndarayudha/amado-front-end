@@ -1,49 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { NotificationConfirmPatientItem } from "./NotificationItem/NotificationConfirmPatientItem";
-import { Menu, Skeleton } from "antd";
-import { useHistory, Link } from "react-router-dom";
+import { Menu} from "antd";
+import { Link } from "react-router-dom";
 
-const getToken = () => {
-  const storedToken = sessionStorage.getItem("token");
-  return storedToken ? storedToken : "";
-};
 
 export const NotificationConfirmPatient = (props) => {
-  const [notifications, setPatients] = useState();
-  const [isLoading, setLoading] = useState(false);
-  const history = useHistory();
-
-  useEffect(() => {
-    // setLoading(!isLoading);
-    let isActive = true;
-
-    const tokenBearer = getToken();
-
-    axios({
-      method: "get",
-      url: "http://localhost:8000/doctor/notification/patient",
-      headers: { Authorization: `Bearer ${tokenBearer}` },
-    })
-      .then((response) => {
-        setLoading(!isLoading);
-        return response;
-      })
-      .then((result) => {
-        if (isActive) {
-          setPatients(result.data.notifications);
-        }
-      })
-      .catch((error) => {
-        console.log(`${error}`);
-      });
-
-    setLoading(!isLoading);
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
 
   const clickedHandler = (id) => {
     props.onClick();
@@ -51,14 +12,14 @@ export const NotificationConfirmPatient = (props) => {
 
   let content;
 
-  if (isLoading) {
-    content = <Skeleton active />;
+  if(props.notificationList.length === 0){
+    content = <h4 style={{ textAlign: 'center' }}>Kosong</h4>
   }
 
-  if (notifications) {
-    content = notifications.map((item) => {
+  if (props.notificationList.length > 0) {
+    content = props.notificationList.map((item) => {
       return (
-        <Link to="/patients">
+        <Link to="/konfirmasi">
           <Menu.Item onClick={clickedHandler}>
           <NotificationConfirmPatientItem
             key={item.id}

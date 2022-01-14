@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Echo from "laravel-echo";
 import "./header.css";
 import {
@@ -17,27 +17,33 @@ import AuthContext from "../../../context/auth-context";
 import { useHistory } from "react-router-dom";
 import { NotificationConfirmPatient } from "./Notification/NotificationConfirmPatient";
 import { NotificationMedicalRecord } from "./Notification/NotificationMedicalRecord";
+import axios from "axios";
+import {url} from '../../../util/endpoints';
+window.Pusher = require("pusher-js");
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
 
-window.Pusher = require("pusher-js");
 
-window.Echo = new Echo({
-  broadcaster: "pusher",
-  key: "myKey",
-  wsHost: window.location.hostname,
-  wsPort: 6001,
-  forceTLS: false,
-  disableStats: true,
-});
+const newNotifEvent = new Event('new-notif');
 
-window.Echo.channel("patient-registered-channel").listen(
-  ".PatientRegisteredEvent",
-  (e) => {
-    openNotification(e);
-  }
-);
+
+// window.Echo = new Echo({
+//   broadcaster: "pusher",
+//   key: "myKey",
+//   wsHost: window.location.hostname,
+//   wsPort: 6001,
+//   forceTLS: false,
+//   disableStats: true,
+// });
+
+// window.Echo.channel("patient-registered-channel").listen(
+//   ".PatientRegisteredEvent",
+//   (e) => {
+//     openNotification(e);
+//   }
+// );
+
 
 const openNotification = (e) => {
   notification.info({
@@ -54,11 +60,60 @@ function callback(key) {
 }
 
 
+const getToken = () => {
+  const storedToken = sessionStorage.getItem("token");
+  return storedToken ? storedToken : "";
+};
+
 
 export const DashboardHeader = () => {
+  const [notifications, setNotifications] = useState([]);
+  const [totalBadge, setTotalBadge] = useState();
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [overlay, setOverlay] = useState(false);
+  
+  useEffect(() => {
+    let isActive = true;
+
+    getUnreadNotifications(isActive);
+    
+    return () => {
+      isActive = false;
+      setNotifications(null);
+    };
+  }, []);
+
+
+  const getUnreadNotifications = (isActive) => {
+    const tokenBearer = getToken();
+
+    console.log('call function');
+  
+    axios({
+      method: "get",
+      url: `${url.prod}/doctor/notification/patient`,
+      headers: { Authorization: `Bearer ${tokenBearer}` },
+    })
+      .then((response) => {
+        return response;
+      })
+      .then((result) => {
+         if(isActive){
+          if(result.data.notifications.length > 0){
+            setTotalBadge(result.data.notifications.length);
+            setNotifications(result.data.notifications);
+          }
+         }
+      })
+      .catch((error) => {
+        console.log(`${error}`);
+      });
+  };
+
+  // if(isAnyNewNotification){
+  //   getUnreadNotifications(true);
+  // }
 
   const onClick = ({ key }) => {
     if (key === "1") {
@@ -66,6 +121,15 @@ export const DashboardHeader = () => {
       history.replace("/");
     }
   };
+
+  
+  const onVisibleHandler = (visible) => {
+    if (visible) {
+      setOverlay(!overlay);
+    }
+    setOverlay(!overlay);
+  };
+
 
   // Drop Down menu
   const menu = (
@@ -75,31 +139,24 @@ export const DashboardHeader = () => {
     </Menu>
   );
 
-  
-
-  const onVisibleHandler = (visible) => {
-    if(visible){
-      setOverlay(!overlay);
-    }
-    setOverlay(!overlay);
-  };
-  
-
   const notificationList = (
     <Menu className="dropdown-padding">
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="Pasien Baru" key="1">
-            <NotificationConfirmPatient onClick={onVisibleHandler}/>
+          <NotificationConfirmPatient
+            onClick={onVisibleHandler}
+            notificationList={notifications && notifications}
+          />
         </TabPane>
-        <TabPane tab="Rekam Medis" key="2">
-            <NotificationMedicalRecord/>
-        </TabPane>
+        {/* <TabPane tab="Rekam Medis" key="2">
+          <NotificationMedicalRecord onClick={onVisibleHandler} />
+        </TabPane> */}
       </Tabs>
     </Menu>
   );
 
   return (
-    <div className={`${overlay ? 'overlay' : ''}`}>
+    <div className={`${overlay ? "overlay" : ""}`}>
       <Header theme="light" className="header">
         <Input
           className="header-input"
@@ -115,10 +172,10 @@ export const DashboardHeader = () => {
             onVisibleChange={(visibility) => {
               onVisibleHandler(visibility);
             }}
-            trigger={['click']}
+            trigger={["click"]}
           >
-            <Badge count={5}>
-                <BellFilled style={{ fontSize: "22px", cursor: "pointer" }} />
+            <Badge count={totalBadge}>
+              <BellFilled style={{ fontSize: "22px", cursor: "pointer" }} />
             </Badge>
           </Dropdown>
         </div>

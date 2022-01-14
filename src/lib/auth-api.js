@@ -1,7 +1,8 @@
+import {url} from '../util/endpoints';
 const LOCAL_DOMAIN = "http://localhost:8000";
 
 export async function login(loginData) {
-  const response = await fetch(`${LOCAL_DOMAIN}/doctor/v1/login`, {
+  const response = await fetch(`${url.prod}/doctor/v1/login`, {
     method: "POST",
     body: JSON.stringify(loginData),
     headers: {

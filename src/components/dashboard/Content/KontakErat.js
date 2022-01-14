@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import H from "@here/maps-api-for-javascript";
+// import H from "@here/maps-api-for-javascript";
 import "./kontak-erat.css";
 import { Row, Col, Layout, Card } from "antd";
 import AOS from "aos";
@@ -16,68 +16,68 @@ export const KontakErat = (props) => {
     AOS.refresh();
   }, []);
 
-  useEffect(() => {
-    const platform = new H.service.Platform({
-      apikey: "av0Ttdg16tP9K8FkILYTYscMzPzWExqyJTO3N05RJwM",
-    });
+  // useEffect(() => {
+  //   const platform = new H.service.Platform({
+  //     apikey: "av0Ttdg16tP9K8FkILYTYscMzPzWExqyJTO3N05RJwM",
+  //   });
 
-    const defaultLayers = platform.createDefaultLayers();
+  //   const defaultLayers = platform.createDefaultLayers();
 
-    // Get an instance of the search service:
-    let service = platform.getSearchService();
-    // Call the reverse geocode method with the geocoding parameters,
-    // the callback and an error callback function (called if a
-    // communication error occurs):
-    service.reverseGeocode(
-      {
-        at: "-8.459048035289157,114.25965552010263",
-      },
-      (result) => {
-        console.log(result);
-        result.items.forEach((item) => {
-          // Assumption: ui is instantiated
-          // Create an InfoBubble at the returned location with
-          // the address as its contents:
-          ui.addBubble(
-            new H.ui.InfoBubble(item.position, {
-              content: item.address.label,
-            })
-          );
-        });
-      },
-      alert
-    );
+  //   // Get an instance of the search service:
+  //   let service = platform.getSearchService();
+  //   // Call the reverse geocode method with the geocoding parameters,
+  //   // the callback and an error callback function (called if a
+  //   // communication error occurs):
+  //   service.reverseGeocode(
+  //     {
+  //       at: "-8.459048035289157,114.25965552010263",
+  //     },
+  //     (result) => {
+  //       console.log(result);
+  //       result.items.forEach((item) => {
+  //         // Assumption: ui is instantiated
+  //         // Create an InfoBubble at the returned location with
+  //         // the address as its contents:
+  //         ui.addBubble(
+  //           new H.ui.InfoBubble(item.position, {
+  //             content: item.address.label,
+  //           })
+  //         );
+  //       });
+  //     },
+  //     alert
+  //   );
 
-    // Create an instance of the map
-    const contacttMap = new H.Map(
-      mapRef.current,
-      defaultLayers.vector.normal.map,
-      {
-        // This map is centered over Europe
-        center: { lat: -8.459048035289157, lng: 114.25965552010263 },
-        zoom: 9,
-        pixelRatio: window.devicePixelRatio || 1,
-      }
-    );
+  //   // Create an instance of the map
+  //   const contacttMap = new H.Map(
+  //     mapRef.current,
+  //     defaultLayers.vector.normal.map,
+  //     {
+  //       // This map is centered over Europe
+  //       center: { lat: -8.459048035289157, lng: 114.25965552010263 },
+  //       zoom: 9,
+  //       pixelRatio: window.devicePixelRatio || 1,
+  //     }
+  //   );
 
-    const behavior = new H.mapevents.Behavior(
-      new H.mapevents.MapEvents(contacttMap)
-    );
+  //   const behavior = new H.mapevents.Behavior(
+  //     new H.mapevents.MapEvents(contacttMap)
+  //   );
 
-    const ui = H.ui.UI.createDefault(contacttMap, defaultLayers);
+  //   const ui = H.ui.UI.createDefault(contacttMap, defaultLayers);
 
-    let mapSettings = ui.getControl("mapsettings");
-    let zoom = ui.getControl("zoom");
-    let scalebar = ui.getControl("scalebar");
+  //   let mapSettings = ui.getControl("mapsettings");
+  //   let zoom = ui.getControl("zoom");
+  //   let scalebar = ui.getControl("scalebar");
 
-    mapSettings.setAlignment("top-left");
-    zoom.setAlignment("top-left");
-    scalebar.setAlignment("top-left");
+  //   mapSettings.setAlignment("top-left");
+  //   zoom.setAlignment("top-left");
+  //   scalebar.setAlignment("top-left");
 
-    setMapInstance({ maps: contacttMap });
+  //   setMapInstance({ maps: contacttMap });
 
-    return setMapInstance({ maps: null });
-  }, [mapRef]);
+  //   return setMapInstance({ maps: null });
+  // }, [mapRef]);
 
   return (
     <Layout>
@@ -88,7 +88,7 @@ export const KontakErat = (props) => {
         style={{ height: "100%" }}
         data-aos="fade-up"
       >
-        <Col span={22}>
+        {/* <Col span={22}>
           <Card style={{ width: "100%" }}>
             <div
               ref={mapRef}
@@ -96,7 +96,7 @@ export const KontakErat = (props) => {
               id="contact-map-container"
             ></div>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </Layout>
   );

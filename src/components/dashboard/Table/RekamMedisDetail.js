@@ -6,6 +6,9 @@ import { Sensors } from "../Chart/Sensors";
 import { Penanganan } from "./Penanganan/Penanganan";
 import { KontakPasienMap } from "../Maps/KontakPasienMap";
 import axios from "axios";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import {url} from '../../../util/endpoints'
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -15,9 +18,16 @@ export const RekamMedisDetail = () => {
   const [biodata, setBiodata] = useState();
 
   useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+    AOS.refresh();
+  }, []);
+
+  useEffect(() => {
     axios({
       method: "get",
-      url: `http://localhost:8000/doctor/patient?id=${id}`,
+      url: `${url.prod}/doctor/patient?id=${id}`,
     })
       .then((response) => {
         return response;

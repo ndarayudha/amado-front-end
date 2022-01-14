@@ -15,6 +15,7 @@ import axios from "axios";
 import { IsolasiMandiri } from "./IsolasiMandiri";
 import { RawatInap } from "./RawatInap";
 import { useHistory } from "react-router-dom";
+import {url} from '../../../../util/endpoints';
 
 const { Option } = Select;
 
@@ -74,7 +75,7 @@ export const Penanganan = (props) => {
     console.log(JSON.stringify(modalText));
     axios({
       method: "post",
-      url: `http://localhost:8000/doctor/penanganan/insert`,
+      url: `${url.prod}/doctor/penanganan/insert`,
       data: modalText,
     })
       .then((response) => {
@@ -238,22 +239,22 @@ export const Penanganan = (props) => {
         </Select>
       </Form.Item>,
 
-      <Form.Item
-        name="oksigen"
-        label="Beri tabung Oksigen"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <InputNumber
-          min={1}
-          max={10}
-          initialValue={1}
-          style={{ width: "100%" }}
-        />
-      </Form.Item>,
+      // <Form.Item
+      //   name="oksigen"
+      //   label="Beri tabung Oksigen"
+      //   rules={[
+      //     {
+      //       required: true,
+      //     },
+      //   ]}
+      // >
+      //   <InputNumber
+      //     min={1}
+      //     max={10}
+      //     initialValue={1}
+      //     style={{ width: "100%" }}
+      //   />
+      // </Form.Item>,
 
       <Form.Item
         name="saran"

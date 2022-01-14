@@ -17,6 +17,7 @@ import axios from "axios";
 import AuthContext from "../../../context/auth-context";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import {url} from '../../../util/endpoints'
 
 const getIdDoctor = () => {
   const storedId = sessionStorage.getItem("id");
@@ -41,7 +42,7 @@ export const Profil = () => {
   useEffect(() => {
     axios({
       method: "post",
-      url: `http://localhost:8000/doctor/user-profile`,
+      url: `${url.prod}/doctor/user-profile`,
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
@@ -54,7 +55,7 @@ export const Profil = () => {
 
     axios({
       method: "get",
-      url: `http://localhost:8000/doctor/bio?id=${doctorId}`,
+      url: `${url.prod}/doctor/bio?id=${doctorId}`,
     })
       .then((response) => {
         return response;
@@ -72,7 +73,7 @@ export const Profil = () => {
 
     axios({
       method: "post",
-      url: `http://localhost:8000/doctor/add-profile-photo`,
+      url: `${url.prod}/doctor/add-profile-photo`,
       headers: { Authorization: `Bearer ${token}` },
       data: photo,
     })
@@ -91,7 +92,7 @@ export const Profil = () => {
 
   const props = {
     name: "file",
-    action: "http://localhost:8000/doctor/add-profile-photo",
+    action: `${url.prod}/doctor/add-profile-photo`,
     headers: {
       authorization: `Bearer ${token}`,
     },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
+import {url} from '../../../util/endpoints'
 
 export const Sensors = (props) => {
   const [dataSensor, setDataSensor] = useState();
@@ -42,7 +43,7 @@ export const Sensors = (props) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `http://localhost:8000/doctor/patient/pulse?id=${props.patientId}`,
+      url: `${url.prod}/doctor/patient/pulse?id=${props.patientId}`,
     })
       .then((response) => {
         return response;
