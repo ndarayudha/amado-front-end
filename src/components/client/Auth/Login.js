@@ -19,7 +19,7 @@ const Login = () => {
   if (loginData !== null) {
     const expirationTime = new Date(new Date().getTime() + 3600 * 1000);
     authCtx.login(loginData, expirationTime.toISOString());
-    history.replace("/patients");
+    history.replace("/statistik");
   }
 
   const onClose = (e) => {};

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import classes from "./Navbar.module.css";
 
 const Navbar = () => {
@@ -9,11 +9,6 @@ const Navbar = () => {
   const clickedHandler = () => {
     setClicked(!clicked);
     setChoose(!choose);
-  };
-
-  const chooseHandler = () => {
-    setClicked(false);
-    setChoose(false);
   };
 
   return (

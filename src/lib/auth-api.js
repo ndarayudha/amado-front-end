@@ -1,5 +1,4 @@
 import {url} from '../util/endpoints';
-const LOCAL_DOMAIN = "http://localhost:8000";
 
 export async function login(loginData) {
   const response = await fetch(`${url.prod}/doctor/v1/login`, {

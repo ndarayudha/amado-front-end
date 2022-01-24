@@ -194,6 +194,7 @@ export const RekamMedisList = () => {
       title: "Alamat",
       dataIndex: "address",
       key: "address",
+      width: "12%",
       ...getColumnSearchProps("address"),
       sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ["descend", "ascend"],
@@ -278,12 +279,7 @@ export const RekamMedisList = () => {
         </Card>
       ) : (
         <Card>
-          <div>
-            {/* <Button type="primary" style={{ marginBottom: "10px" }}>
-              Tambah Rekam Medis
-            </Button> */}
-            <Table columns={columns} dataSource={patientRecord} />
-          </div>
+            <Table style={{width: '100%'}} columns={columns} dataSource={patientRecord} />
         </Card>
       )}
     </div>

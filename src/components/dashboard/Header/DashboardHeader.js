@@ -16,7 +16,7 @@ import { SearchOutlined, DownOutlined, BellFilled } from "@ant-design/icons";
 import AuthContext from "../../../context/auth-context";
 import { useHistory } from "react-router-dom";
 import { NotificationConfirmPatient } from "./Notification/NotificationConfirmPatient";
-import { NotificationMedicalRecord } from "./Notification/NotificationMedicalRecord";
+// import { NotificationMedicalRecord } from "./Notification/NotificationMedicalRecord";
 import axios from "axios";
 import {url} from '../../../util/endpoints';
 window.Pusher = require("pusher-js");
@@ -25,24 +25,21 @@ const { Header } = Layout;
 const { TabPane } = Tabs;
 
 
-const newNotifEvent = new Event('new-notif');
+window.Echo = new Echo({
+  broadcaster: "pusher",
+  key: "myKey",
+  wsHost: window.location.hostname,
+  wsPort: 6001,
+  forceTLS: false,
+  disableStats: true,
+});
 
-
-// window.Echo = new Echo({
-//   broadcaster: "pusher",
-//   key: "myKey",
-//   wsHost: window.location.hostname,
-//   wsPort: 6001,
-//   forceTLS: false,
-//   disableStats: true,
-// });
-
-// window.Echo.channel("patient-registered-channel").listen(
-//   ".PatientRegisteredEvent",
-//   (e) => {
-//     openNotification(e);
-//   }
-// );
+window.Echo.channel("patient-registered-channel").listen(
+  ".PatientRegisteredEvent",
+  (e) => {
+    openNotification(e);
+  }
+);
 
 
 const openNotification = (e) => {

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { Row, Col, Layout, Input, Card } from "antd";
+import { Row, Col} from "antd";
 import "./rekam-medis.css";
 import { RekamMedisList } from "../Table/RekamMedisList";
 import AOS from "aos";

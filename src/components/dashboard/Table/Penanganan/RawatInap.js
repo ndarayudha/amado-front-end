@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./isolasi-mandiri.css";
 import icAmado from "../../../../asset/ic_amado.png";
 import { Divider, Descriptions, Row, Col } from "antd";

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 // import H from "@here/maps-api-for-javascript";
 // import {url} from '../../../util/endpoints';
 
