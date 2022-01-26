@@ -12,7 +12,7 @@ import { LokasiPasien } from "../Content/LokasiPasien";
 import { KontakErat } from "../Content/KontakErat";
 import { RekamMedis } from "../Content/RekamMedis";
 import { RekamMedisDetail } from "../Table/RekamMedisDetail";
-import { Profil } from "../Content/Profil";
+import { Profil } from "../Content/profil/Profil";
 import { KonfirmasiDetail } from "../Content/konfirmasi/KonfirmasiDetail";
 import { Konfirmasi } from "../Content/konfirmasi/Konfirmasi";
 import AuthContext from "../../../context/auth-context";
