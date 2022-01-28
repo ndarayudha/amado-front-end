@@ -19,7 +19,7 @@ export const NotificationConfirmPatient = (props) => {
   if (props.notificationList.length > 0) {
     content = props.notificationList.map((item) => {
       return (
-        <Link to="/konfirmasi">
+        <Link to="/konfirmasi" key={item.id}>
           <Menu.Item onClick={clickedHandler}>
           <NotificationConfirmPatientItem
             key={item.id}

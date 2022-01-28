@@ -1,0 +1,9 @@
+.biodata{
+    width: 100%;
+    display: flex;
+}
+
+.form__biodata{
+    width:60%;
+    text-align: start;
+}

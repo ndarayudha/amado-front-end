@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col } from "antd";
+import { Row, Col  } from "antd";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useDispatch } from "react-redux";
