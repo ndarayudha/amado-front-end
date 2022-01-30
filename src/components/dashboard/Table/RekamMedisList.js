@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Table,
   Input,
@@ -15,57 +16,21 @@ import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import "./rekam-medis-list.css";
 import axios from "axios";
-import {url} from '../../../util/endpoints'
+import { url } from "../../../util/endpoints";
+import { getRecords } from "./api";
 
 let searchInput = "";
 
 export const RekamMedisList = () => {
-  const [medicalRecords, setMedicalRecords] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDelete, setDelete] = useState();
+  const dispatch = useDispatch();
+  const records = useSelector((state) => state.records.records);
+  const loading = useSelector((state) => state.records.loading);
+
+  console.log(records);
 
   useEffect(() => {
-    getRecordList();
-  }, []);
-
-  const getRecordList = () => {
-    axios({
-      method: "get",
-      url: `${url.prod}/doctor/patient/records`,
-    })
-      .then((response) => {
-        return response;
-      })
-      .then((result) => {
-        setMedicalRecords(result.data.records);
-        setIsLoading(!isLoading);
-      })
-      .catch(() => {});
-  };
-
-  let patientRecord = [];
-
-  if (medicalRecords !== undefined) {
-    for (const i in medicalRecords) {
-      // apakah pasien punya rekam medis?
-      let isMedicalRecordExist = medicalRecords[i].medicalRecord.length !== 0;
-
-      for (const j in medicalRecords[i].medicalRecord) {
-        if (isMedicalRecordExist) {
-          patientRecord.push({
-            key: medicalRecords[i].medicalRecord[j].id,
-            idRecord: medicalRecords[i].medicalRecord[j].id,
-            name: medicalRecords[i].name,
-            age: "20",
-            address: medicalRecords[i].alamat,
-            spo2: medicalRecords[i].medicalRecord[j].averrage_spo2,
-            bpm: medicalRecords[i].medicalRecord[j].averrage_bpm,
-            konfirmasi: medicalRecords[i].medicalRecord[j].konfirmasi,
-          });
-        }
-      }
-    }
-  }
+    dispatch(getRecords());
+  }, [dispatch]);
 
   const [search, setSearch] = useState({
     searchText: "",
@@ -259,12 +224,10 @@ export const RekamMedisList = () => {
       .then((response) => {
         return response;
       })
-      .then((result) => {
-        setDelete(true);
-      })
+      .then((result) => {})
       .catch(() => {});
     message.success("Rekam Medis berhasil dihapus");
-    getRecordList();
+    // getRecordList();
   };
 
   const cancel = (e) => {
@@ -273,13 +236,17 @@ export const RekamMedisList = () => {
 
   return (
     <div>
-      {isLoading ? (
+      {loading ? (
         <Card>
           <Skeleton />
         </Card>
       ) : (
         <Card>
-            <Table style={{width: '100%'}} columns={columns} dataSource={patientRecord} />
+          <Table
+            style={{ width: "100%" }}
+            columns={columns}
+            dataSource={records}
+          />
         </Card>
       )}
     </div>

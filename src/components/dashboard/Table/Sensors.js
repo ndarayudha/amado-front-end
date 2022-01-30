@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
-import {url} from '../../../util/endpoints'
+import { url } from "../../../util/endpoints";
+import { Select } from "antd";
+
+const { Option } = Select;
 
 export const Sensors = (props) => {
   const [dataSensor, setDataSensor] = useState();
@@ -62,8 +65,21 @@ export const Sensors = (props) => {
     }
   }
 
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
+
   return (
     <div className="Area">
+      <Select
+        defaultValue="lucy"
+        style={{ width: 220 }}
+        onChange={handleChange}
+      >
+        <Option value="1">Monitoring ke - 1</Option>
+        <Option value="2">Monitoring ke - 2</Option>
+        <Option value="3">Monitoring ke - 3</Option>
+      </Select>
       <Chart
         options={options.chartOptions}
         series={options.series}
