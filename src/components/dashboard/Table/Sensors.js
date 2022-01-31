@@ -1,29 +1,40 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import axios from "axios";
-import { url } from "../../../util/endpoints";
-import { Select } from "antd";
+import { useParams } from "react-router-dom";
+import { Select, Skeleton, Spin } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { rekamMedisActions } from "./rekam-medis-slice";
+import { getLastMonitoringCode, getSensorDataById } from "./api";
 
 const { Option } = Select;
 
 export const Sensors = (props) => {
-  const [dataSensor, setDataSensor] = useState();
+  const dispatch = useDispatch();
+  let { id } = useParams();
+  const chart = useSelector((state) => state.records.chartData);
+  const monitoringCode = useSelector((state) => state.records.monitoringCode);
+  const loadingChart = useSelector((state) => state.records.loadingChart);
+
+  console.log(chart);
+
+  useEffect(() => {
+    dispatch(getLastMonitoringCode(id));
+  }, [dispatch, id]);
 
   const options = {
-    series: [
-      {
-        name: "Spo2",
-        data: [],
-      },
-      {
-        name: "Bpm",
-        data: [],
-      },
-    ],
     chartOptions: {
       chart: {
         height: 350,
         type: "area",
+        stacked: false,
+        zoom: {
+          type: "x",
+          enabled: true,
+          autoScaleYaxis: true,
+        },
+        toolbar: {
+          autoSelected: "zoom",
+        },
       },
       dataLabels: {
         enabled: true,
@@ -33,7 +44,25 @@ export const Sensors = (props) => {
       },
       xaxis: {
         type: "datetime",
-        categories: [],
+        categories: chart.date,
+        title: {
+          text: "waktu",
+        },
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          inverseColors: false,
+          opacityFrom: 0.5,
+          opacityTo: 0,
+          stops: [0, 90, 100],
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Spo2 & Bpm",
+        },
       },
       tooltip: {
         x: {
@@ -43,50 +72,46 @@ export const Sensors = (props) => {
     },
   };
 
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: `${url.prod}/doctor/patient/pulse?id=${props.patientId}`,
-    })
-      .then((response) => {
-        return response;
-      })
-      .then((result) => {
-        setDataSensor(result.data.data);
-      })
-      .catch(() => {});
-  }, [props.patientId]);
-
-  if (dataSensor !== undefined) {
-    for (let j = 0; j < dataSensor.length; j++) {
-      options.series[0].data.push(parseInt(dataSensor[j].spo2));
-      options.series[1].data.push(parseInt(dataSensor[j].bpm));
-      options.chartOptions.xaxis.categories.push(dataSensor[j].created_at);
-    }
-  }
-
   function handleChange(value) {
-    console.log(`selected ${value}`);
+    dispatch(getSensorDataById(value));
   }
 
   return (
     <div className="Area">
-      <Select
-        defaultValue="lucy"
-        style={{ width: 220 }}
-        onChange={handleChange}
-      >
-        <Option value="1">Monitoring ke - 1</Option>
-        <Option value="2">Monitoring ke - 2</Option>
-        <Option value="3">Monitoring ke - 3</Option>
-      </Select>
-      <Chart
-        options={options.chartOptions}
-        series={options.series}
-        type="area"
-        height={300}
-        width={650}
-      />
+      {monitoringCode ? (
+        <div>
+          <div style={{display: 'flex'}}>
+            <div>
+              <h4>Data Monitoring</h4>
+              <Select style={{ width: 220 }} onChange={handleChange}>
+                {monitoringCode.map((code, index) => (
+                  <Option key={code} value={code}>
+                    Monitoring ke - {code}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+            <div style={{marginLeft: '30px'}}>
+              <h4>Data Monitoring</h4>
+            </div>
+          </div>
+          {loadingChart === true ? (
+            <Spin
+              style={{ height: "350px", width: "650px", textAlign: "center" }}
+            />
+          ) : (
+            <Chart
+              options={options.chartOptions}
+              series={chart.series}
+              type="area"
+              height={300}
+              width={650}
+            />
+          )}
+        </div>
+      ) : (
+        <Skeleton />
+      )}
     </div>
   );
 };

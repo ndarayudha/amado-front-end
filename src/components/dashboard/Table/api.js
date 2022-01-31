@@ -3,6 +3,81 @@ import moment from "moment";
 
 const ENDPOINT_GET_PATIENT_RECORDS = `${process.env.REACT_APP_DOMAIN}/doctor/patient/records`;
 const ENDPOINT_GET_PATIENT_BY_ID = `${process.env.REACT_APP_DOMAIN}/doctor/patient?id=`;
+const ENDPOINT_GET_SENSOR_DATA_BY_ID = `${process.env.REACT_APP_DOMAIN}/sensor?id=`;
+const ENDPOINT_GET_LAST_MONITORING_CODE = `${process.env.REACT_APP_DOMAIN}/sensor/code?id=`;
+
+export const getLastMonitoringCode = (id) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(ENDPOINT_GET_LAST_MONITORING_CODE + id);
+
+      if (!response.ok) {
+        throw new Error("fetch failed");
+      }
+
+      const data = await response.json();
+
+      return data;
+    };
+
+    try {
+      const responseData = await fetchData();
+      dispatch(
+        rekamMedisActions.setMonitoringCode({
+          monitoringCode: responseData.last_monitoring_code || [],
+        })
+      );
+    } catch (error) {}
+  };
+};
+
+export const getSensorDataById = (id) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(ENDPOINT_GET_SENSOR_DATA_BY_ID + id);
+
+      if (!response.ok) {
+        throw new Error("fetch failed");
+      }
+
+      const data = await response.json();
+
+      return data;
+    };
+
+    try {
+      dispatch(
+        rekamMedisActions.setChartLoading({
+          loading: true,
+        })
+      );
+      const responseData = await fetchData();
+
+      let spo2 = [];
+      let bpm = [];
+      let date = [];
+
+      for (let data of responseData.data) {
+        spo2.push(+data.spo2);
+        bpm.push(+data.bpm);
+        date.push(data.created_at);
+      }
+
+      dispatch(
+        rekamMedisActions.setDataSensor({
+          spo2: spo2,
+          bpm: bpm,
+          date: date,
+        })
+      );
+      dispatch(
+        rekamMedisActions.setChartLoading({
+          loading: false,
+        })
+      );
+    } catch (error) {}
+  };
+};
 
 export const getPaientCurrentMonitoring = (id) => {
   return async (dispatch) => {
@@ -90,6 +165,14 @@ export const getRecords = () => {
       dispatch(
         rekamMedisActions.setLoading({
           loading: false,
+        })
+      );
+
+      dispatch(
+        rekamMedisActions.setDataSensor({
+          spo2: [],
+          bpm: [],
+          date: [],
         })
       );
     } catch (error) {}

@@ -18,6 +18,7 @@ import "./rekam-medis-list.css";
 import axios from "axios";
 import { url } from "../../../util/endpoints";
 import { getRecords } from "./api";
+import { Divider } from "antd";
 
 let searchInput = "";
 
@@ -242,11 +243,17 @@ export const RekamMedisList = () => {
         </Card>
       ) : (
         <Card>
-          <Table
-            style={{ width: "100%" }}
-            columns={columns}
-            dataSource={records}
-          />
+          <div style={{ width: "100%" }}>
+            <h1 style={{ fontSize: "20px", color: "#3c3c3c" }}>
+              Rekam Medis
+            </h1>
+            <Divider />
+            <Table
+              style={{ width: "100%" }}
+              columns={columns}
+              dataSource={records}
+            />
+          </div>
         </Card>
       )}
     </div>
