@@ -1,25 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  useEffect } from "react";
 import Chart from "react-apexcharts";
 import { useParams } from "react-router-dom";
 import { Select, Skeleton, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { rekamMedisActions } from "./rekam-medis-slice";
 import { getLastMonitoringCode, getSensorDataById } from "./api";
+import GoogleMap from "../Maps/GoogleMap";
+import { GeoCodeMarker } from "../Maps/GeoCodeMarker";
 
 const { Option } = Select;
 
 export const Sensors = (props) => {
   const dispatch = useDispatch();
   let { id } = useParams();
+  
   const chart = useSelector((state) => state.records.chartData);
   const monitoringCode = useSelector((state) => state.records.monitoringCode);
   const loadingChart = useSelector((state) => state.records.loadingChart);
-
-  console.log(chart);
+  const detailBio = useSelector((state) => state.records.detailBio);
 
   useEffect(() => {
     dispatch(getLastMonitoringCode(id));
   }, [dispatch, id]);
+
+  
 
   const options = {
     chartOptions: {
@@ -76,11 +80,23 @@ export const Sensors = (props) => {
     dispatch(getSensorDataById(value));
   }
 
+  const onChildClickCallback = (key) => {
+    console.log(key);
+  }
+
+  const defaultProps = {
+    center: {
+      lat: -8.33562350780472,
+      lng: 114.26583566963781,
+    },
+    zoom: 11,
+  };
+
   return (
     <div className="Area">
       {monitoringCode ? (
         <div>
-          <div style={{display: 'flex'}}>
+          <div style={{ display: "flex", height: '300px', width: '100%', marginBottom: '50px' }}>
             <div>
               <h4>Data Monitoring</h4>
               <Select style={{ width: 220 }} onChange={handleChange}>
@@ -91,8 +107,24 @@ export const Sensors = (props) => {
                 ))}
               </Select>
             </div>
-            <div style={{marginLeft: '30px'}}>
-              <h4>Data Monitoring</h4>
+            <div style={{ marginLeft: "30px", width: '100%', height: '100%'}}>
+              <h4>Lokasi Monitoring</h4>
+                <GoogleMap
+                  defaultZoom={10}
+                  defaultCenter={defaultProps.center}
+                  bootstrapURLKeys={{
+                    key: process.env.REACT_APP_GOOGLE_MAPS_API,
+                  }}
+                  onChildClick={onChildClickCallback}
+                >
+                  <GeoCodeMarker
+                    key={detailBio.id}
+                    lat={detailBio.latitude}
+                    lng={detailBio.longitude}
+                    show={true}
+                    patient={detailBio}
+                  />
+                </GoogleMap>
             </div>
           </div>
           {loadingChart === true ? (

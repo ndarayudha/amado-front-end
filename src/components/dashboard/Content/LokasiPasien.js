@@ -18,13 +18,6 @@ const listPatientStyle = {
 
 export const LokasiPasien = (props) => {
   const [patients, setPatients] = useState([]);
-  const [coords, setCords] = useState({
-    center: {
-      lat: -8.33562350780472,
-      lng: 114.26583566963781,
-    },
-    zoom: 11,
-  })
 
   const defaultProps = {
     center: {
@@ -64,7 +57,7 @@ export const LokasiPasien = (props) => {
 
   return (
     <Row
-      style={{ height: "100vh", width: "100%" }}
+      style={{}}
       data-aos="fade-up"
       justify="center"
       align="center"

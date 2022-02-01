@@ -2,7 +2,7 @@ import { rekamMedisActions } from "./rekam-medis-slice";
 import moment from "moment";
 
 const ENDPOINT_GET_PATIENT_RECORDS = `${process.env.REACT_APP_DOMAIN}/doctor/patient/records`;
-const ENDPOINT_GET_PATIENT_BY_ID = `${process.env.REACT_APP_DOMAIN}/doctor/patient?id=`;
+const ENDPOINT_GET_PATIENT_BY_ID = `${process.env.REACT_APP_DOMAIN}/konfirmasi/patient?id=`;
 const ENDPOINT_GET_SENSOR_DATA_BY_ID = `${process.env.REACT_APP_DOMAIN}/sensor?id=`;
 const ENDPOINT_GET_LAST_MONITORING_CODE = `${process.env.REACT_APP_DOMAIN}/sensor/code?id=`;
 
@@ -97,7 +97,7 @@ export const getPaientCurrentMonitoring = (id) => {
       const responseData = await fetchData();
       dispatch(
         rekamMedisActions.setDetailBio({
-          detailBio: responseData.data || [],
+          detailBio: responseData.patient || [],
         })
       );
     } catch (error) {}

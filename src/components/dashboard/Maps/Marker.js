@@ -19,12 +19,6 @@ export const InfoWindow = (props) => {
     <div style={infoWindowStyle}>
       <div style={{ fontSize: 16 }}>{patient.name}</div>
       <div style={{ fontSize: 14, color: "grey" }}>{patient.alamat}</div>
-      {/* <div style={{ fontSize: 14, color: "grey" }}>
-        {"$".repeat(place.price_level)}
-      </div>
-      <div style={{ fontSize: 14, color: "green" }}>
-        {place.opening_hours.open_now ? "Open" : "Closed"}
-      </div> */}
     </div>
   );
 };
