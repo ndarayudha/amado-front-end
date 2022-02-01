@@ -5,6 +5,33 @@ const ENDPOINT_GET_PATIENT_RECORDS = `${process.env.REACT_APP_DOMAIN}/doctor/pat
 const ENDPOINT_GET_PATIENT_BY_ID = `${process.env.REACT_APP_DOMAIN}/konfirmasi/patient?id=`;
 const ENDPOINT_GET_SENSOR_DATA_BY_ID = `${process.env.REACT_APP_DOMAIN}/sensor?id=`;
 const ENDPOINT_GET_LAST_MONITORING_CODE = `${process.env.REACT_APP_DOMAIN}/sensor/code?id=`;
+const ENDPOINT_GET_CLOSE_CONTACT = `${process.env.REACT_APP_DOMAIN}/patient/record?patient_id=`;
+const ENDPOINT_GET_RECORD_SENSOR = `${process.env.REACT_APP_DOMAIN}/sensor/records?id=`;
+
+export const getCloseContactPatient = (id) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(ENDPOINT_GET_CLOSE_CONTACT + id);
+
+      if (!response.ok) {
+        throw new Error("fetch failed");
+      }
+
+      const data = await response.json();
+
+      return data;
+    };
+
+    try {
+      const responseData = await fetchData();
+      dispatch(
+        rekamMedisActions.setCloseContacts({
+          closeContacts: responseData.close_contacts || [],
+        })
+      );
+    } catch (error) {}
+  };
+};
 
 export const getLastMonitoringCode = (id) => {
   return async (dispatch) => {
@@ -25,6 +52,52 @@ export const getLastMonitoringCode = (id) => {
       dispatch(
         rekamMedisActions.setMonitoringCode({
           monitoringCode: responseData.last_monitoring_code || [],
+        })
+      );
+    } catch (error) {}
+  };
+};
+
+export const getRecordSensorDataById = (id) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(ENDPOINT_GET_RECORD_SENSOR + id);
+
+      if (!response.ok) {
+        throw new Error("fetch failed");
+      }
+
+      const data = await response.json();
+
+      return data;
+    };
+
+    try {
+      dispatch(
+        rekamMedisActions.setChartLoading({
+          loading: true,
+        })
+      );
+      const responseData = await fetchData();
+
+
+      dispatch(
+        rekamMedisActions.setRecordDataSensor({
+          spo21: responseData.data_pengukuran.pengukuran_1.spo2,
+          bpm1: responseData.data_pengukuran.pengukuran_1.bpm,
+          date1: responseData.data_pengukuran.pengukuran_1.date,
+          spo22: responseData.data_pengukuran.pengukuran_2.spo2,
+          bpm2: responseData.data_pengukuran.pengukuran_2.bpm,
+          date2: responseData.data_pengukuran.pengukuran_2.date,
+          spo23: responseData.data_pengukuran.pengukuran_3.spo2,
+          bpm3: responseData.data_pengukuran.pengukuran_3.bpm,
+          date3: responseData.data_pengukuran.pengukuran_3.date,
+        })
+      );
+
+      dispatch(
+        rekamMedisActions.setChartLoading({
+          loading: false,
         })
       );
     } catch (error) {}

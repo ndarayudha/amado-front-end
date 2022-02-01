@@ -19,6 +19,7 @@ import axios from "axios";
 import { url } from "../../../util/endpoints";
 import { getRecords } from "./api";
 import { Divider } from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
 
 let searchInput = "";
 
@@ -209,6 +210,7 @@ export const RekamMedisList = () => {
               Hapus
             </Tag>
           </Popconfirm>
+          <DownloadOutlined />
           {/* <Link to={`/rekam-medis/${id}`}>
             <Tag color="orange">Detail</Tag>
           </Link> */}
@@ -244,9 +246,7 @@ export const RekamMedisList = () => {
       ) : (
         <Card>
           <div style={{ width: "100%" }}>
-            <h1 style={{ fontSize: "20px", color: "#3c3c3c" }}>
-              Rekam Medis
-            </h1>
+            <h1 style={{ fontSize: "20px", color: "#3c3c3c" }}>Rekam Medis</h1>
             <Divider />
             <Table
               style={{ width: "100%" }}

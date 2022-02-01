@@ -27,21 +27,21 @@ window.Pusher = require("pusher-js");
 const { Header } = Layout;
 const { TabPane } = Tabs;
 
-window.Echo = new Echo({
-  broadcaster: "pusher",
-  key: "myKey",
-  wsHost: window.location.hostname,
-  wsPort: 6001,
-  forceTLS: false,
-  disableStats: true,
-});
+// window.Echo = new Echo({
+//   broadcaster: "pusher",
+//   key: "myKey",
+//   wsHost: window.location.hostname,
+//   wsPort: 6001,
+//   forceTLS: false,
+//   disableStats: true,
+// });
 
-window.Echo.channel("patient-registered-channel").listen(
-  ".PatientRegisteredEvent",
-  (e) => {
-    openNotification(e);
-  }
-);
+// window.Echo.channel("patient-registered-channel").listen(
+//   ".PatientRegisteredEvent",
+//   (e) => {
+//     openNotification(e);
+//   }
+// );
 
 const openNotification = (e) => {
   notification.info({

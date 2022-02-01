@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  InputNumber,
-  DatePicker,
-  Modal,
-  message,
-} from "antd";
+import { Form, Input, Button, Select, Modal, message } from "antd";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
-import { IsolasiMandiri } from "./IsolasiMandiri";
 import { RawatInap } from "./RawatInap";
 import { useHistory } from "react-router-dom";
-import {url} from '../../../../util/endpoints';
-
+import { url } from "../../../../util/endpoints";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
@@ -47,6 +37,8 @@ export const Penanganan = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState({});
 
+  const detailBio = useSelector((state) => state.records.detailBio);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -62,14 +54,14 @@ export const Penanganan = (props) => {
   };
 
   const handleOk = () => {
-    setConfirmLoading(true);
-    sendData();
+    // setConfirmLoading(true);
+    // sendData();
     // setTimeout(() => {
     //   setVisible(false);
     //   setConfirmLoading(false);
     //   message.success("Rekam medis berhasil diproses");
     // }, 3000);
-    setConfirmLoading(false);
+    // setConfirmLoading(false);
   };
 
   const sendData = () => {
@@ -107,13 +99,8 @@ export const Penanganan = (props) => {
     let data = {
       rekam_medis_id: id,
       bpm: values.bpm ? values.bpm : "",
-      diagnosa: values.diagnosa ? values.diagnosa : "",
-      oksigen: values.oksigen ? values.oksigen : "",
-      ruangan: values.ruangan ? values.ruangan : "",
+      kesimpulan: values.kesimpulan ? values.kesimpulan : "",
       saran: values.saran ? values.saran : "",
-      tanggal_keluar: values.tanggal_keluar ? values.tanggal_keluar : "",
-      tanggal_masuk: values.tanggal_masuk ? values.tanggal_masuk : "",
-      tindakan: values.tindakan ? values.tindakan : "",
     };
 
     setModalText(null);
@@ -134,142 +121,23 @@ export const Penanganan = (props) => {
 
   let rawatInap = "";
 
-  if (penanganan === "Isolasi Mandiri") {
-    rawatInap = [
-      <Form.Item
-        name="saran"
-        label="Saran ke pasien"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>,
+  console.log(process.env.REACT_APP_KENDO_UI_LICENSE);
 
-      <Modal
-        title="Penanganan"
-        visible={visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        width={1000}
-        footer={[
-          <Button key="back" onClick={handleCancel}>
-            Batal
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-          >
-            Proses
-          </Button>,
-        ]}
-      >
-        <IsolasiMandiri detail={modalText} pasien={props.pasien} />
-      </Modal>,
-    ];
-  }
-
-  if (penanganan === "Rawat Inap") {
-    rawatInap = [
-      <Modal
-        title="Penanganan"
-        visible={visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        width={1000}
-        footer={[
-          <Button key="back" onClick={handleCancel}>
-            Batal
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={confirmLoading}
-            onClick={handleOk}
-          >
-            Proses
-          </Button>,
-        ]}
-      >
-        <RawatInap detail={modalText} pasien={props.pasien} />
-      </Modal>,
-
-      <Form.Item
-        name="tanggal_masuk"
-        label="Tanggal Masuk"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <DatePicker />
-      </Form.Item>,
-
-      <Form.Item
-        name="tanggal_keluar"
-        label="Tanggal Keluar"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <DatePicker />
-      </Form.Item>,
-
-      <Form.Item
-        name="ruangan"
-        label="Ruangan"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Select placeholder="Ruang Inap" allowClear>
-          {/* looping ruangan */}
-          <Option value="A-15">A-15</Option>
-          <Option value="A-12">A-12</Option>
-        </Select>
-      </Form.Item>,
-
-      // <Form.Item
-      //   name="oksigen"
-      //   label="Beri tabung Oksigen"
-      //   rules={[
-      //     {
-      //       required: true,
-      //     },
-      //   ]}
-      // >
-      //   <InputNumber
-      //     min={1}
-      //     max={10}
-      //     initialValue={1}
-      //     style={{ width: "100%" }}
-      //   />
-      // </Form.Item>,
-
-      <Form.Item
-        name="saran"
-        label="Saran ke Pasien"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>,
-    ];
-  }
+  rawatInap = [
+    <Modal
+      title="Penanganan"
+      visible={visible}
+      onOk={handleOk}
+      confirmLoading={confirmLoading}
+      onCancel={handleCancel}
+      width={1000}
+      footer={[
+        
+      ]}
+    >
+      <RawatInap detail={modalText} pasien={detailBio} />
+    </Modal>,
+  ];
 
   return (
     <div>
@@ -299,8 +167,8 @@ export const Penanganan = (props) => {
         </Form.Item>
 
         <Form.Item
-          name="diagnosa"
-          label="Diagnosa"
+          name="kesimpulan"
+          label="Kesimpulan"
           rules={[
             {
               required: true,
@@ -311,22 +179,15 @@ export const Penanganan = (props) => {
         </Form.Item>
 
         <Form.Item
-          name="tindakan"
-          label="Tindak Lanjut"
+          name="saran"
+          label="Saran"
           rules={[
             {
               required: true,
             },
           ]}
         >
-          <Select
-            placeholder="Tindak Lanjut penanganan pasien"
-            allowClear
-            onChange={onPenanganan}
-          >
-            <Option value="Isolasi Mandiri">Isolasi Mandiri</Option>
-            <Option value="Rawat Inap">Rawat Inap</Option>
-          </Select>
+          <Input />
         </Form.Item>
 
         {rawatInap.length === 0 ? "" : rawatInap}

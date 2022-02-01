@@ -15,7 +15,7 @@ export const DashboardSidebar = () => {
   let location = useLocation();
 
   return (
-    <Sider className="sidebar" style={{ overflow: "scroll" }}>
+    <Sider className="sidebar" style={{height: '1200px'}}>
       <div className="logo">
         <h1>Amado</h1>
         <img src={IcAmado} alt="ucib amado" />

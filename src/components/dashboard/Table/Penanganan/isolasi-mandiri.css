@@ -4,6 +4,11 @@
   flex-direction: column;
 }
 
+.dokumen-medis {
+  padding: 50px 40px;
+}
+
+
 .kop-kontainer {
   display: flex;
   flex-direction: row;

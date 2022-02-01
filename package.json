@@ -6,6 +6,9 @@
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.8",
     "@googlemaps/react-wrapper": "^1.1.20",
+    "@progress/kendo-drawing": "^1.16.2",
+    "@progress/kendo-licensing": "^1.2.1",
+    "@progress/kendo-react-pdf": "^5.0.1",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
