@@ -195,6 +195,7 @@ export const RekamMedisList = () => {
       render: (id, record) => (
         <Space size="middle">
           <Link to={`/rekam-medis/${id}`}>
+            {console.log(record)}
             <Tag color="blue">Proses</Tag>
           </Link>
           <Popconfirm
@@ -210,7 +211,9 @@ export const RekamMedisList = () => {
               Hapus
             </Tag>
           </Popconfirm>
-          <DownloadOutlined />
+          <a href={record.url} target="_blank" rel="noopener noreferrer">
+            <DownloadOutlined />
+          </a>
           {/* <Link to={`/rekam-medis/${id}`}>
             <Tag color="orange">Detail</Tag>
           </Link> */}

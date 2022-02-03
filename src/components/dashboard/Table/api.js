@@ -1,5 +1,10 @@
 import { rekamMedisActions } from "./rekam-medis-slice";
 import moment from "moment";
+import storage, {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "../../../firebase";
 
 const ENDPOINT_GET_PATIENT_RECORDS = `${process.env.REACT_APP_DOMAIN}/doctor/patient/records`;
 const ENDPOINT_GET_PATIENT_BY_ID = `${process.env.REACT_APP_DOMAIN}/konfirmasi/patient?id=`;
@@ -7,6 +12,82 @@ const ENDPOINT_GET_SENSOR_DATA_BY_ID = `${process.env.REACT_APP_DOMAIN}/sensor?i
 const ENDPOINT_GET_LAST_MONITORING_CODE = `${process.env.REACT_APP_DOMAIN}/sensor/code?id=`;
 const ENDPOINT_GET_CLOSE_CONTACT = `${process.env.REACT_APP_DOMAIN}/patient/record?patient_id=`;
 const ENDPOINT_GET_RECORD_SENSOR = `${process.env.REACT_APP_DOMAIN}/sensor/records?id=`;
+const ENDPOINT_KONFIRMASI_REKAM_MEDIS = `${process.env.REACT_APP_DOMAIN}/records/konfirmasi`;
+const ENDPOINT_EMAIL_REKAM_MEDIS = `${process.env.REACT_APP_DOMAIN}/records/konfirmasi/mail`;
+
+export const sendEmailRekamMedis = (recordId) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(ENDPOINT_EMAIL_REKAM_MEDIS, {
+        method: "POST",
+        body: JSON.stringify({
+          record_id: recordId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("fetch patients data failed");
+      }
+
+      const data = await response.json();
+
+      return data;
+    };
+
+    try {
+      const result = await fetchData();
+      console.log(result);
+    } catch (error) {}
+  };
+};
+
+export const uploadFirebase = (records, id, saran) => {
+  return async (dispatch) => {
+    const storageRef = ref(storage, "records/" + records.file.name);
+    const uploadTask = uploadBytesResumable(
+      storageRef,
+      records.file.originFileObj
+    );
+
+    uploadTask.on("state_changed", () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        updateRekamMedisStatus({
+          id: id,
+          url: downloadURL,
+          rekomendasi: saran,
+        });
+      });
+    });
+  };
+};
+
+const updateRekamMedisStatus = async (url) => {
+  const fetchData = async () => {
+    const response = await fetch(ENDPOINT_KONFIRMASI_REKAM_MEDIS, {
+      method: "POST",
+      body: JSON.stringify(url),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("fetch doctor profile failed");
+    }
+
+    const data = await response.json();
+
+    return data;
+  };
+
+  try {
+    const result = await fetchData();
+    console.log(result);
+  } catch (error) {}
+};
 
 export const getCloseContactPatient = (id) => {
   return async (dispatch) => {
@@ -79,7 +160,6 @@ export const getRecordSensorDataById = (id) => {
         })
       );
       const responseData = await fetchData();
-
 
       dispatch(
         rekamMedisActions.setRecordDataSensor({
@@ -223,6 +303,7 @@ export const getRecords = () => {
                 spo2: medicalRecords[i].medicalRecord[j].averrage_spo2,
                 bpm: medicalRecords[i].medicalRecord[j].averrage_bpm,
                 konfirmasi: medicalRecords[i].medicalRecord[j].konfirmasi,
+                url: medicalRecords[i].medicalRecord[j].url
               });
             }
           }

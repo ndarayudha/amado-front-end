@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./isolasi-mandiri.css";
 import icAmado from "../../../../asset/ic_amado.png";
-import { Divider, Descriptions, Row, Col, Button } from "antd";
+import {
+  Divider,
+  Descriptions,
+  Row,
+  Col,
+  Button,
+  Spin,
+  Upload,
+  message,
+} from "antd";
 import moment from "moment";
 import axios from "axios";
 import { url } from "../../../../util/endpoints";
@@ -9,10 +18,18 @@ import { useSelector, useDispatch } from "react-redux";
 import Chart from "react-apexcharts";
 import GoogleMap from "../../Maps/GoogleMap";
 import { GeoCodeMarker } from "../../Maps/GeoCodeMarker";
-import { getRecordSensorDataById } from "../api";
-import { useParams } from "react-router";
+import {
+  getRecordSensorDataById,
+  uploadFirebase,
+  getRecords,
+  sendEmailRekamMedis,
+} from "../api";
+import { useParams, useHistory } from "react-router";
+import { InboxOutlined } from "@ant-design/icons";
 
-import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import { PDFExport } from "@progress/kendo-react-pdf";
+
+const { Dragger } = Upload;
 
 const getIdDoctor = () => {
   const storedId = sessionStorage.getItem("id");
@@ -40,8 +57,10 @@ export const RawatInap = (props) => {
   const thirdRecordMonitoring = useSelector(
     (state) => state.records.thirdRecordMonitoring
   );
+  const loadingChart = useSelector((state) => state.records.loadingChart);
 
   const { id } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   let tanggalLahir = props.pasien.tanggal_lahir;
@@ -119,9 +138,47 @@ export const RawatInap = (props) => {
     },
   };
 
+  const uploadProps = {
+    name: "file",
+    multiple: true,
+    action: `${url.prod}/records/upload`,
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (status === "done") {
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          dispatch(uploadFirebase(info, id, props.detail.saran));
+        };
+        reader.readAsDataURL(info.file.originFileObj);
+        message.success("Upload file berhasil");
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
+
+  const handleProcess = () => {
+    history.push("/rekam-medis");
+    
+    dispatch(sendEmailRekamMedis(id));
+    
+    dispatch(getRecords());
+    message.success("Proses konfirmasi berhasil");
+  };
+
   return (
     <div className="surat-container">
-      <PDFExport margin="4cm" ref={pdfExportComponent}>
+      <PDFExport
+        margin="4cm"
+        ref={pdfExportComponent}
+        fileName={`rekam-medis-${detailBio.name}`}
+      >
         <div style={{ padding: "50px 40px" }}>
           <div
             style={{
@@ -176,45 +233,90 @@ export const RawatInap = (props) => {
           <br />
 
           <Row>
-            <div style={{ width: "100%", height: "300px" }}>
-              <h4>Pengukuran ke 1</h4>
-              <Chart
-                options={options.chartOptions}
-                series={firstRecordMonitoring.series}
-                type="area"
-                height={300}
-                width={650}
-              />
+            <div style={{ width: "100%", height: "300px", margin: "auto" }}>
+              <h4>
+                Pengukuran ke 1 :{" "}
+                {moment(firstRecordMonitoring.date[0]).format(
+                  "DD MM YYYY, hh:mm:ss a"
+                )}
+              </h4>
+              {loadingChart === true ? (
+                <Spin
+                  style={{
+                    height: "350px",
+                    width: "650px",
+                    textAlign: "center",
+                  }}
+                />
+              ) : (
+                <Chart
+                  options={options.chartOptions}
+                  series={firstRecordMonitoring.series}
+                  type="area"
+                  height={300}
+                  width={650}
+                />
+              )}
             </div>
           </Row>
 
-          <Row style={{marginTop: '50px'}}>
+          <Row style={{ marginTop: "50px" }}>
             <div style={{ width: "100%", height: "300px" }}>
-              <h4>Pengukuran ke 2</h4>
-              <Chart
-                options={options.chartOptions}
-                series={secondRecordMonitoring.series}
-                type="area"
-                height={300}
-                width={650}
-              />
+              <h4>
+                Pengukuran ke 2 :{" "}
+                {moment(secondRecordMonitoring.date[0]).format(
+                  "DD MM YYYY, hh:mm:ss a"
+                )}
+              </h4>
+              {loadingChart === true ? (
+                <Spin
+                  style={{
+                    height: "350px",
+                    width: "650px",
+                    textAlign: "center",
+                  }}
+                />
+              ) : (
+                <Chart
+                  options={options.chartOptions}
+                  series={secondRecordMonitoring.series}
+                  type="area"
+                  height={300}
+                  width={650}
+                />
+              )}
             </div>
           </Row>
 
-          <Row style={{marginTop: '50px'}}>
+          <Row style={{ marginTop: "50px" }}>
             <div style={{ width: "100%", height: "300px" }}>
-              <h4>Pengukuran ke 3</h4>
-              <Chart
-                options={options.chartOptions}
-                series={thirdRecordMonitoring.series}
-                type="area"
-                height={300}
-                width={650}
-              />
+              <h4>
+                Pengukuran ke 3 :{" "}
+                {moment(thirdRecordMonitoring.date[0]).format(
+                  "DD MM YYYY, hh:mm:ss a"
+                )}
+              </h4>
+              {loadingChart === true ? (
+                <Spin
+                  style={{
+                    height: "350px",
+                    width: "650px",
+                    textAlign: "center",
+                  }}
+                />
+              ) : (
+                <Chart
+                  options={options.chartOptions}
+                  series={thirdRecordMonitoring.series}
+                  type="area"
+                  height={300}
+                  width={650}
+                />
+              )}
             </div>
           </Row>
 
-          <Row style={{marginTop: '60px'}}>
+          <Row style={{ marginTop: "60px" }}>
             <div style={{ width: "100%", height: "300px" }}>
               <h4>Lokasi Monitoring</h4>
               <GoogleMap
@@ -251,8 +353,28 @@ export const RawatInap = (props) => {
           </Row>
         </div>
       </PDFExport>
+
+      <div style={{ margin: "auto", marginTop: "60px" }}>
+        <Dragger {...uploadProps}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">Drag file rekam medis di sini</p>
+          <p className="ant-upload-hint">
+            Download file rekam medis ini lalu upload untuk mengkonfirmasi
+          </p>
+        </Dragger>
+      </div>
+
       <div style={{ marginLeft: "auto", marginTop: "60px" }}>
-        <Button key="submit" type="primary" onClick={exportPDFWithComponent}>
+        <Button
+          key="submit"
+          onClick={exportPDFWithComponent}
+          style={{ marginRight: "8px" }}
+        >
+          Download
+        </Button>
+        <Button htmlType="button" type="primary" onClick={handleProcess}>
           Proses
         </Button>
       </div>
